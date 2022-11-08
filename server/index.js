@@ -15,6 +15,21 @@ const db = new pg.Pool({
   }
 });
 
+app.get('/api/products', (req, res, next) => {
+  const sql = `
+  select "name",
+         "imageUrl",
+         "price"
+    from "snowboards"
+    `;
+  db.query(sql)
+    .then(result => {
+      const snowboards = result.rows;
+      res.status(200).json(snowboards);
+    })
+    .catch(err => next(err));
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
