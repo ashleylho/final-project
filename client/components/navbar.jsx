@@ -1,16 +1,20 @@
 import React from 'react';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 
-export default class Navbar extends React.Component {
+export default class Navigation extends React.Component {
   render() {
     return (
-      <div className='bg-img'>
-        <div className='overlay'>
-          <nav className="navbar">
-            <h3 className="brand">{'Trader Snow\'s'}</h3>
-            <a className="nav-link" href="#products">PRODUCTS</a>
-          </nav>
+      <Navbar>
+        <div className='bg-img'>
+          <div className='overlay'>
+            <Nav>
+              <Navbar.Brand className="brand" href="#home">{'Trader Snow\'s'}</Navbar.Brand>
+              <Nav.Link href="#products">PRODUCTS</Nav.Link>
+            </Nav>
+          </div>
         </div>
-      </div>
+      </Navbar>
     );
   }
 }
