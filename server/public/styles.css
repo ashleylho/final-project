@@ -31,4 +31,10 @@ body {
 .nav-link {
   font-size: calc(0.5rem + 1vw);
   margin-top: 15px;
+  color: black;
+}
+
+h2 {
+  text-align: center;
+  padding: 1rem;
 }
