@@ -1,0 +1,2 @@
+-- insert into "snowboards" ("name", "price", "imageUrl", "description", "profileType", "flex", "shape", "edgeTech", "abilityLevel", "terrain")
+-- values ('Roxy XOXO', ')
