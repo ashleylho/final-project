@@ -1,0 +1,31 @@
+body {
+  font-family: Inter, sans-serif;
+}
+
+.brand {
+  font-family: Bahiana, cursive;
+  font-size: 3rem;
+  vertical-align: center;
+  margin-bottom: 0;
+  padding: 0.25rem 2rem;
+  letter-spacing: 0.1rem;
+}
+
+.bg-img {
+  background-image: url("./winter.jpg");
+  background-size: 100%;
+}
+
+.overlay {
+  background: rgba(242, 242, 242, 0.51);
+}
+
+.navbar {
+  justify-content: left;
+}
+
+.nav-link {
+  font-size: 1.25rem;
+  padding: 0 0.5rem;
+  letter-spacing: 0.1rem;
+}
