@@ -17,11 +17,20 @@ export default class Products extends React.Component {
   }
 
   render() {
+    const listItems = this.state.products.map(product => {
+      return <ListGroup.Item key={product.productId}>
+        <div>
+          <img src={product.imageUrl} />
+          <h5>{product.name}</h5>
+          <h5>{`$${product.price / 100}`}</h5>
+        </div>
+      </ListGroup.Item>;
+    });
     return (
       <>
         <h2>{'Women\'s Snowboards'}</h2>
         <ListGroup horizontal>
-          <ListGroup.Item>Hello</ListGroup.Item>
+          {listItems}
         </ListGroup>
       </>
     );

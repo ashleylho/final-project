@@ -17,7 +17,8 @@ const db = new pg.Pool({
 
 app.get('/api/products', (req, res, next) => {
   const sql = `
-  select "name",
+  select "productId",
+         "name",
          "imageUrl",
          "price"
     from "snowboards"
