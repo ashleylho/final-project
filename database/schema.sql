@@ -79,7 +79,7 @@ CREATE TABLE "public"."orders" (
 	"cartId" int NOT NULL,
 	"customerId" int NOT NULL,
 	"purchasedAt" timestamp with time zone NOT NULL,
-	"total" numeric NOT NULL,
+	"total" int NOT NULL,
 	CONSTRAINT "orders_pk" PRIMARY KEY ("orderId")
 ) WITH (
   OIDS=FALSE
@@ -102,8 +102,8 @@ CREATE TABLE "public"."reviews" (
 
 CREATE TABLE "public"."edgeTech" (
 	"edgeTechId" serial NOT NULL,
-	"edgeTechName" serial NOT NULL,
-	"edgeTechDescription" int NOT NULL,
+	"edgeTechName" TEXT NOT NULL,
+	"edgeTechDescription" TEXT NOT NULL,
 	CONSTRAINT "edgeTech_pk" PRIMARY KEY ("edgeTechId")
 ) WITH (
   OIDS=FALSE
@@ -135,7 +135,6 @@ CREATE TABLE "public"."cart" (
 ALTER TABLE "snowboards" ADD CONSTRAINT "snowboards_fk0" FOREIGN KEY ("profileType") REFERENCES "profileTypes"("profileId");
 ALTER TABLE "snowboards" ADD CONSTRAINT "snowboards_fk1" FOREIGN KEY ("shape") REFERENCES "shapes"("shapeId");
 ALTER TABLE "snowboards" ADD CONSTRAINT "snowboards_fk2" FOREIGN KEY ("edgeTech") REFERENCES "edgeTech"("edgeTechId");
-ALTER TABLE "snowboards" ADD CONSTRAINT "snowboards_fk3" FOREIGN KEY ("terrain") REFERENCES "terrainTypes"("terrainId");
 
 ALTER TABLE "sizes" ADD CONSTRAINT "sizes_fk0" FOREIGN KEY ("productId") REFERENCES "snowboards"("productId");
 
