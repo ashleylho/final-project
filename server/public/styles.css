@@ -27,3 +27,18 @@ body {
 .price {
   font-weight: 600;
 }
+
+.splash {
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(242, 242, 242, 0.551);
+}
+
+.shop {
+  font-size: calc(1rem + 1vw);
+}
+
+.mountains {
+  font-size: calc(1rem + 1vw);
+}

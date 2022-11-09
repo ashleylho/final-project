@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 export default class Navigation extends React.Component {
   render() {
     return (
-      <Navbar className='pt-0'>
+      <Navbar className='py-0'>
         <div className='bg-img w-100'>
           <div className='overlay'>
             <Nav className="align-items-center">

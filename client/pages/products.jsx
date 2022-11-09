@@ -30,7 +30,7 @@ export default class Products extends React.Component {
     });
     return (
       <Container>
-        <h2 className="p-1 mb-2 text-center">{'Women\'s Snowboards'}</h2>
+        <h2 className="p-1 my-4 text-center">{'Women\'s Snowboards'}</h2>
         <ListGroup className="w-100 d-flex flex-row flex-wrap">
           {listItems}
         </ListGroup>
