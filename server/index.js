@@ -31,6 +31,30 @@ app.get('/api/products', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/products/:id', (req, res, next) => {
+  const id = Number(req.params.id);
+  const sql = `
+    select "name",
+         "imageUrl",
+         "price",
+         "description",
+         "profileName",
+         "profileDescription",
+         "flex",
+         "shapeName",
+         "shapeDescription",
+         "edgeTechName",
+         "edgeTechDescription",
+         "abilityLevel",
+         "terrain"
+    from "snowboards"
+    join "shapes" using ("shapeId")
+    join "edgeTech" using ("edgeTechId")
+    join "profileTypes" using ("profileId")
+   where "productId" = id;
+  `;
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

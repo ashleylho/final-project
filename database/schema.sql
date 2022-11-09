@@ -12,10 +12,10 @@ CREATE TABLE "public"."snowboards" (
 	"price" int NOT NULL,
 	"imageUrl" TEXT NOT NULL,
 	"description" TEXT NOT NULL,
-	"profileType" int NOT NULL,
+	"profileId" int NOT NULL,
 	"flex" TEXT NOT NULL,
-	"shape" int NOT NULL,
-	"edgeTech" int NOT NULL,
+	"shapeId" int NOT NULL,
+	"edgeTechId" int NOT NULL,
 	"abilityLevel" TEXT NOT NULL,
 	"terrain" json NOT NULL,
 	CONSTRAINT "snowboards_pk" PRIMARY KEY ("productId")
@@ -132,9 +132,9 @@ CREATE TABLE "public"."cart" (
 
 
 
-ALTER TABLE "snowboards" ADD CONSTRAINT "snowboards_fk0" FOREIGN KEY ("profileType") REFERENCES "profileTypes"("profileId");
-ALTER TABLE "snowboards" ADD CONSTRAINT "snowboards_fk1" FOREIGN KEY ("shape") REFERENCES "shapes"("shapeId");
-ALTER TABLE "snowboards" ADD CONSTRAINT "snowboards_fk2" FOREIGN KEY ("edgeTech") REFERENCES "edgeTech"("edgeTechId");
+ALTER TABLE "snowboards" ADD CONSTRAINT "snowboards_fk0" FOREIGN KEY ("profileId") REFERENCES "profileTypes"("profileId");
+ALTER TABLE "snowboards" ADD CONSTRAINT "snowboards_fk1" FOREIGN KEY ("shapeId") REFERENCES "shapes"("shapeId");
+ALTER TABLE "snowboards" ADD CONSTRAINT "snowboards_fk2" FOREIGN KEY ("edgeTechId") REFERENCES "edgeTech"("edgeTechId");
 
 ALTER TABLE "sizes" ADD CONSTRAINT "sizes_fk0" FOREIGN KEY ("productId") REFERENCES "snowboards"("productId");
 
