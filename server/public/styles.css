@@ -2,20 +2,14 @@ body {
   font-family: Inter, sans-serif;
 }
 
-.container {
-  max-width: 1100px;
-}
-
 .brand {
   font-family: Bahiana, cursive;
-  font-size: calc(1rem + 4vw);
-  margin-bottom: 0;
+  font-size: calc(1rem + 3vw);
   padding: 0.25rem 0 0.25rem 1.75rem;
   letter-spacing: 0.1rem;
 }
 
 .bg-img {
-  width: 100%;
   background-image: url("./winter.jpg");
   background-size: 100%;
 }
@@ -24,17 +18,12 @@ body {
   background: rgba(242, 242, 242, 0.51);
 }
 
-.navbar-nav {
-  align-items: center;
-}
-
 .nav-link {
   font-size: calc(0.5rem + 1vw);
   margin-top: 15px;
   color: black;
 }
 
-h2 {
-  text-align: center;
-  padding: 1rem;
+.price {
+  font-weight: 600;
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Container from 'react-bootstrap/Container';
 
 export default class Products extends React.Component {
   constructor(props) {
@@ -18,21 +19,22 @@ export default class Products extends React.Component {
 
   render() {
     const listItems = this.state.products.map(product => {
-      return <ListGroup.Item key={product.productId}>
+      return <ListGroup.Item className="border-0 col-sm-6 col-lg-3" key={product.productId}>
         <div>
-          <img src={product.imageUrl} />
-          <h5>{product.name}</h5>
-          <h5>{`$${product.price / 100}`}</h5>
+          <img className="w-100" src={product.imageUrl} />
+          <h5 className="mt-4 text-center">{product.name}</h5>
+          <h5 className="text-center price">{`$${product.price / 100}`}</h5>
+          <hr />
         </div>
       </ListGroup.Item>;
     });
     return (
-      <>
-        <h2>{'Women\'s Snowboards'}</h2>
-        <ListGroup horizontal>
+      <Container>
+        <h2 className="p-1 mb-2 text-center">{'Women\'s Snowboards'}</h2>
+        <ListGroup className="w-100 d-flex flex-row flex-wrap">
           {listItems}
         </ListGroup>
-      </>
+      </Container>
     );
   }
 }
