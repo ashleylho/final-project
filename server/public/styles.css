@@ -29,7 +29,7 @@ body {
 }
 
 .splash {
-  top: 50%;
+  top: 30%;
   left: 50%;
   transform: translateX(-50%);
   background-color: rgba(242, 242, 242, 0.551);
@@ -41,4 +41,10 @@ body {
 
 .mountains {
   font-size: calc(1rem + 1vw);
+}
+
+.home-div {
+  background-image: url("./winter.jpg");
+  min-height: 600px;
+  background-size: fit;
 }
