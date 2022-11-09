@@ -1,0 +1,40 @@
+body {
+  font-family: Inter, sans-serif;
+  position: relative;
+}
+
+.brand {
+  font-family: Bahiana, cursive;
+  font-size: calc(1rem + 3vw);
+  padding: 0.25rem 0 0.25rem 1.75rem;
+  letter-spacing: 0.1rem;
+}
+
+.bg-img {
+  background-image: url("./winter.jpg");
+  background-size: 100%;
+}
+
+.overlay {
+  background: rgba(242, 242, 242, 0.51);
+}
+
+.nav-link {
+  font-size: calc(0.5rem + 1vw);
+  margin-top: 15px;
+  color: black;
+}
+
+.splash {
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(242, 242, 242, 0.551);
+}
+
+.home-div {
+  background-image: url("./winter.jpg");
+  min-height: 600px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}

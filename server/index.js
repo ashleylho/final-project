@@ -2,13 +2,33 @@ require('dotenv/config');
 const express = require('express');
 const staticMiddleware = require('./static-middleware');
 const errorMiddleware = require('./error-middleware');
+const pg = require('pg');
 
 const app = express();
 
 app.use(staticMiddleware);
 
-app.get('/api/hello', (req, res) => {
-  res.json({ hello: 'world' });
+const db = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+
+app.get('/api/products', (req, res, next) => {
+  const sql = `
+  select "productId",
+         "name",
+         "imageUrl",
+         "price"
+    from "snowboards"
+    `;
+  db.query(sql)
+    .then(result => {
+      const snowboards = result.rows;
+      res.status(200).json(snowboards);
+    })
+    .catch(err => next(err));
 });
 
 app.use(errorMiddleware);
