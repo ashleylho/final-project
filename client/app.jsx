@@ -26,7 +26,7 @@ export default class App extends React.Component {
 
   renderPage() {
     const { path, params } = this.state.route;
-    if (path === 'home' || path === 'products') {
+    if (path === 'home' || path === 'products' || path === '') {
       return (
         <>
           <Home />
@@ -34,7 +34,7 @@ export default class App extends React.Component {
         </>
       );
     }
-    if (params[0]) {
+    if (params) {
       return <ProductDetails />;
     }
   }
@@ -46,6 +46,7 @@ export default class App extends React.Component {
         <div>
           {this.renderPage()}
         </div>
+        <ProductDetails />
       </>
     );
   }
