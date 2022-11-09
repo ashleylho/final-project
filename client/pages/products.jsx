@@ -23,7 +23,7 @@ export default class Products extends React.Component {
         <div>
           <img className="w-100" src={product.imageUrl} />
           <h5 className="mt-4 text-center">{product.name}</h5>
-          <h5 className="text-center price">{`$${product.price / 100}`}</h5>
+          <h5 className="text-center fw-bold">{`$${product.price / 100}`}</h5>
           <hr />
         </div>
       </ListGroup.Item>;
