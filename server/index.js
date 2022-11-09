@@ -32,9 +32,8 @@ app.get('/api/products', (req, res, next) => {
 });
 
 app.get('/api/products/:id', (req, res, next) => {
-  const id = Number(req.params.id);
   const sql = `
-    select "name",
+  select "name",
          "imageUrl",
          "price",
          "description",
@@ -46,13 +45,22 @@ app.get('/api/products/:id', (req, res, next) => {
          "edgeTechName",
          "edgeTechDescription",
          "abilityLevel",
-         "terrain"
+         "terrain",
+         "size"
     from "snowboards"
     join "shapes" using ("shapeId")
     join "edgeTech" using ("edgeTechId")
     join "profileTypes" using ("profileId")
-   where "productId" = id;
+    join "sizes" using ("productId")
+   where "productId" = $1;
   `;
+  const params = [Number(req.params.id)];
+  db.query(sql, params)
+    .then(result => {
+      const products = result.rows;
+      res.status(200).json(products);
+    })
+    .catch(err => next(err));
 });
 
 app.use(errorMiddleware);
