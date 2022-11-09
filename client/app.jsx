@@ -8,11 +8,11 @@ import Products from './pages/products';
 export default class App extends React.Component {
   render() {
     return (
-      <div>
+      <>
         <Navigation />
         <Home />
         <Products />
-      </div>
+      </>
     );
   }
 }

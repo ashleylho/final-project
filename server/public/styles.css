@@ -1,5 +1,6 @@
 body {
   font-family: Inter, sans-serif;
+  position: relative;
 }
 
 .brand {
@@ -35,16 +36,9 @@ body {
   background-color: rgba(242, 242, 242, 0.551);
 }
 
-.shop {
-  font-size: calc(1rem + 1vw);
-}
-
-.mountains {
-  font-size: calc(1rem + 1vw);
-}
-
 .home-div {
   background-image: url("./winter.jpg");
   min-height: 600px;
-  background-size: fit;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
