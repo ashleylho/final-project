@@ -26,7 +26,8 @@ export default class App extends React.Component {
   }
 
   renderPage() {
-    const { path } = this.state.route;
+    const { route } = this.state;
+    const { path } = route;
     if (path === 'home' || path === 'products' || path === '') {
       return (
         <>
@@ -35,9 +36,10 @@ export default class App extends React.Component {
         </>
       );
     }
-    // if (params) {
-    //   return <ProductDetails />;
-    // }
+    if (route.path === 'product') {
+      const productId = route.params.get('productId');
+      return <ProductDetails productId={productId}/>;
+    }
   }
 
   render() {
@@ -47,7 +49,7 @@ export default class App extends React.Component {
         <div>
           {this.renderPage()}
         </div>
-        <ProductDetails />
+        {/* <ProductDetails /> */}
       </>
     );
   }

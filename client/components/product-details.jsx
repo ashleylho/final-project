@@ -106,14 +106,13 @@ export default class ProductDetails extends React.Component {
             </Accordion>
             <hr />
           </div>
-          <Container className="desktop">
+          <Container className="desktop my-5">
             <Row className="d-md-flex flex-row flex-wrap">
               <div className="col-6">
-                <h1 className="col fw-bold py-3">{product.name} Snowboard</h1>
+                <h2 className="col fw-bold py-3">{product.name} Snowboard</h2>
                 <p className="mb-0 fs-5">Select Size(cm)</p>
                 {this.sizes()}
                 <p className="fw-bold fs-4">${product.price / 100}</p>
-                <h5 className="fw-bold fs-5">Product Details</h5>
                 <p>{product.description}</p>
               </div>
               <div className="col-6 text-center d-flex flex-column justify-content-center order-md-first">
@@ -122,35 +121,35 @@ export default class ProductDetails extends React.Component {
               </div>
             </Row>
             <div>
-              <h5 className="fw-bold">Specs</h5>
+              <h5 className="fw-bold fs-4">Specs</h5>
               <hr />
               <Row>
-                <div className="col-3 fw-bold">Profile Type</div>
+                <div className="col-3 fw-bold fs-5">Profile Type</div>
                 <div className="col-9">{product.profileName} - {product.profileDescription}</div>
               </Row>
               <hr />
               <Row>
-                <div className="col-3 fw-bold">Flex</div>
+                <div className="col-3 fw-bold fs-5">Flex</div>
                 <div className="col-9">{product.flex}</div>
               </Row>
               <hr />
               <Row>
-                <div className="col-3 fw-bold">Shape</div>
+                <div className="col-3 fw-bold fs-5">Shape</div>
                 <div className="col-9">{product.shapeName} - {product.shapeDescription}</div>
               </Row>
               <hr />
               <Row>
-                <div className="col-3 fw-bold">Edge Tech</div>
+                <div className="col-3 fw-bold fs-5">Edge Tech</div>
                 <div className="col-9">{product.edgeTechName} - {product.edgeTechDescription}</div>
               </Row>
               <hr />
               <Row>
-                <div className="col-3 fw-bold">Ability Level</div>
+                <div className="col-3 fw-bold fs-5">Ability Level</div>
                 <div className="col-9">{product.abilityLevel}</div>
               </Row>
               <hr />
               <Row>
-                <div className="col-3 fw-bold">Terrain</div>
+                <div className="col-3 fw-bold fs-5">Terrain</div>
                 <div className="col-9">{result}</div>
               </Row>
               <hr />
