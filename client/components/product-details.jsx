@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import parseRoute from '../lib/parse-route';
 import Row from 'react-bootstrap/Row';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -9,9 +10,10 @@ export default class ProductDetails extends React.Component {
     this.state = {
       product: {},
       route: parseRoute(window.location.hash),
-      loading: false,
-      specsAreOpen: false
+      loading: false
+      // specsAreOpen: false
     };
+    this.sizes = this.sizes.bind(this);
   }
 
   componentDidMount() {
@@ -24,16 +26,36 @@ export default class ProductDetails extends React.Component {
       .catch(err => console.error(err));
   }
 
+  sizes() {
+    const sizes = [];
+    for (let i = 0; i < this.state.product.length; i++) {
+      sizes.push(this.state.product[i].size);
+    }
+    const listItems = sizes.map(size => {
+      return <ListGroup.Item key={size}>
+        <div>{size}</div>
+      </ListGroup.Item>;
+    });
+    return (
+      <ListGroup>
+        {listItems}
+      </ListGroup>
+    );
+  }
+
   render() {
     if (this.state.loading === true) {
       const product = this.state.product[0];
       return (
         <Container>
-          <h2>{product.name}</h2>
-          <img src={product.imageUrl} />
-          <div>Base Colors May Vary</div>
+          <div className="text-center">
+            <h1 className="fw-bold py-3">{product.name}</h1>
+            <img className="img-fluid" src={product.imageUrl} />
+            <div className="py-3 text-secondary">Base Colors May Vary</div>
+          </div>
           <hr />
           <p>Select Size(cm)</p>
+          <div>{this.sizes()}</div>
           <p className="fw-bold">${product.price / 100}</p>
           <hr />
           <h5 className="fw-bold">Product Details</h5>
