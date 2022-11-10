@@ -5,7 +5,7 @@ import '../server/public/styles.css';
 import '../server/public/layout.css';
 import Navigation from './components/navbar';
 import Products from './pages/products';
-import ProductDetails from './components/product-details';
+import ProductDetails from './pages/product-details';
 import parseRoute from './lib/parse-route';
 
 export default class App extends React.Component {
@@ -49,7 +49,6 @@ export default class App extends React.Component {
         <div>
           {this.renderPage()}
         </div>
-        {/* <ProductDetails /> */}
       </>
     );
   }

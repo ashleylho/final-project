@@ -54,7 +54,7 @@ export default class ProductDetails extends React.Component {
       return (
         <>
           <div className="mobile mx-3">
-            <h1 className="text-center fw-bold py-3">{product.name} Snowboard</h1>
+            <h2 className="text-center fw-bold py-3">{product.name} Snowboard</h2>
             <div className="text-center">
               <img className="img-fluid" src={product.imageUrl} />
               <div className="py-3 text-secondary">Base Colors May Vary</div>
@@ -62,12 +62,11 @@ export default class ProductDetails extends React.Component {
             <hr />
             <p className="mb-0">Select Size(cm)</p>
             {this.sizes()}
-            <p className="fw-bold">${product.price / 100}</p>
+            <p className="fw-bold fs-5">${product.price / 100}</p>
             <hr />
             <h5 className="fw-bold">Product Details</h5>
             <p>{product.description}</p>
             <hr />
-
             <Accordion flush>
               <Accordion.Item eventKey="0">
                 <Accordion.Header>Specs</Accordion.Header>
