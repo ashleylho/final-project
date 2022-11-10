@@ -2,6 +2,7 @@ require('dotenv/config');
 const express = require('express');
 const staticMiddleware = require('./static-middleware');
 const errorMiddleware = require('./error-middleware');
+const ClientError = require('./client-error');
 const pg = require('pg');
 
 const app = express();
@@ -33,7 +34,7 @@ app.get('/api/products', (req, res, next) => {
 
 app.get('/api/products/:id', (req, res, next) => {
   const sql = `
-  select "name",
+select   "name",
          "imageUrl",
          "price",
          "description",
@@ -46,19 +47,23 @@ app.get('/api/products/:id', (req, res, next) => {
          "edgeTechDescription",
          "abilityLevel",
          "terrain",
-         "size"
+         array_agg("size") as sizes
     from "snowboards"
     join "shapes" using ("shapeId")
     join "edgeTech" using ("edgeTechId")
     join "profileTypes" using ("profileId")
     join "sizes" using ("productId")
-   where "productId" = $1;
+   where "productId" = $1
+   group by "productId", "profileName", "profileDescription", "shapeName", "shapeDescription", "edgeTechName", "edgeTechDescription"
   `;
   const params = [Number(req.params.id)];
   db.query(sql, params)
     .then(result => {
-      const products = result.rows;
-      res.status(200).json(products);
+      const product = result.rows[0];
+      if (!product) {
+        throw new ClientError(404, 'Product is not found.');
+      }
+      res.status(200).json(product);
     })
     .catch(err => next(err));
 });
