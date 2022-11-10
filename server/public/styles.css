@@ -88,3 +88,13 @@ a:hover {
 /* .list-group {
   flex: 1 1 0;
 } */
+
+.p-img {
+  max-height: 95%;
+  width: auto;
+  object-fit: contain;
+}
+
+.d-img {
+  max-height: 600px;
+}

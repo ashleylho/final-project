@@ -115,13 +115,13 @@ export default class ProductDetails extends React.Component {
                 <p className="fw-bold fs-4">${product.price / 100}</p>
                 <p>{product.description}</p>
               </div>
-              <div className="col-6 text-center d-flex flex-column justify-content-center order-md-first">
-                <img className="img-fluid" src={product.imageUrl} />
+              <div className="col-6 d-img text-center d-flex flex-column justify-content-center order-md-first">
+                <img className="p-img" src={product.imageUrl} />
                 <div className="py-3 text-secondary">Base Colors May Vary</div>
               </div>
             </Row>
             <div>
-              <h5 className="fw-bold fs-4">Specs</h5>
+              <h5 className="fw-bold fs-4 mt-3">Specs</h5>
               <hr />
               <Row>
                 <div className="col-3 fw-bold fs-5">Profile Type</div>

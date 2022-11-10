@@ -36,7 +36,7 @@ export default class App extends React.Component {
         </>
       );
     }
-    if (route.path === 'product') {
+    if (path === 'product') {
       const productId = route.params.get('productId');
       return <ProductDetails productId={productId}/>;
     }
