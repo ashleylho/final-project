@@ -53,7 +53,7 @@ export default class ProductDetails extends React.Component {
       const result = terrain.join(', ');
       return (
         <>
-          <div className="mobile mx-3">
+          <div className="product-details-mobile mx-3">
             <h2 className="text-center fw-bold py-3">{product.name} Snowboard</h2>
             <div className="text-center">
               <img className="img-fluid" src={product.imageUrl} />
@@ -105,7 +105,7 @@ export default class ProductDetails extends React.Component {
             </Accordion>
             <hr />
           </div>
-          <Container className="desktop my-5">
+          <Container className="product-details-desktop my-5">
             <Row className="d-md-flex flex-row flex-wrap">
               <div className="col-6">
                 <h2 className="col fw-bold py-3">{product.name} Snowboard</h2>
