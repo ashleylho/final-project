@@ -52,62 +52,61 @@ export default class ProductDetails extends React.Component {
       const terrain = product.terrain;
       const result = terrain.join(', ');
       return (
-        <Container>
-          <div>
-            <Row>
-              <h1 className="text-center fw-bold py-3">{product.name} Snowboard</h1>
-              <div className="text-center">
-                <img className="img-fluid" src={product.imageUrl} />
-                <div className="py-3 text-secondary">Base Colors May Vary</div>
-              </div>
-              <hr />
-              <p className="mb-0">Select Size(cm)</p>
-              {this.sizes()}
-              <p className="fw-bold">${product.price / 100}</p>
-              <hr />
-              <h5 className="fw-bold">Product Details</h5>
-              <p>{product.description}</p>
-            </Row>
+        <>
+          <div className="mobile mx-3">
+            <h1 className="text-center fw-bold py-3">{product.name} Snowboard</h1>
+            <div className="text-center">
+              <img className="img-fluid" src={product.imageUrl} />
+              <div className="py-3 text-secondary">Base Colors May Vary</div>
+            </div>
+            <hr />
+            <p className="mb-0">Select Size(cm)</p>
+            {this.sizes()}
+            <p className="fw-bold">${product.price / 100}</p>
+            <hr />
+            <h5 className="fw-bold">Product Details</h5>
+            <p>{product.description}</p>
+            <hr />
+
+            <Accordion flush>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>Specs</Accordion.Header>
+                <Accordion.Body>
+                  <Row>
+                    <div className="col-3 fw-bold">Profile Type</div>
+                    <div className="col-9">{product.profileName} - {product.profileDescription}</div>
+                  </Row>
+                  <hr />
+                  <Row>
+                    <div className="col-3 fw-bold">Flex</div>
+                    <div className="col-9">{product.flex}</div>
+                  </Row>
+                  <hr />
+                  <Row>
+                    <div className="col-3 fw-bold">Shape</div>
+                    <div className="col-9">{product.shapeName} - {product.shapeDescription}</div>
+                  </Row>
+                  <hr />
+                  <Row>
+                    <div className="col-3 fw-bold">Edge Tech</div>
+                    <div className="col-9">{product.edgeTechName} - {product.edgeTechDescription}</div>
+                  </Row>
+                  <hr />
+                  <Row>
+                    <div className="col-3 fw-bold">Ability Level</div>
+                    <div className="col-9">{product.abilityLevel}</div>
+                  </Row>
+                  <hr />
+                  <Row>
+                    <div className="col-3 fw-bold">Terrain</div>
+                    <div className="col-9">{result}</div>
+                  </Row>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+            <hr />
           </div>
-          <hr />
-          <Accordion flush>
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Specs</Accordion.Header>
-              <Accordion.Body>
-                <Row>
-                  <div className="col-3 fw-bold">Profile Type</div>
-                  <div className="col-9">{product.profileName} - {product.profileDescription}</div>
-                </Row>
-                <hr />
-                <Row>
-                  <div className="col-3 fw-bold">Flex</div>
-                  <div className="col-9">{product.flex}</div>
-                </Row>
-                <hr />
-                <Row>
-                  <div className="col-3 fw-bold">Shape</div>
-                  <div className="col-9">{product.shapeName} - {product.shapeDescription}</div>
-                </Row>
-                <hr />
-                <Row>
-                  <div className="col-3 fw-bold">Edge Tech</div>
-                  <div className="col-9">{product.edgeTechName} - {product.edgeTechDescription}</div>
-                </Row>
-                <hr />
-                <Row>
-                  <div className="col-3 fw-bold">Ability Level</div>
-                  <div className="col-9">{product.abilityLevel}</div>
-                </Row>
-                <hr />
-                <Row>
-                  <div className="col-3 fw-bold">Terrain</div>
-                  <div className="col-9">{result}</div>
-                </Row>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-          <hr />
-          <div>
+          <Container className="desktop">
             <Row className="d-md-flex flex-row flex-wrap">
               <div className="col-6">
                 <h1 className="col fw-bold py-3">{product.name} Snowboard</h1>
@@ -117,7 +116,7 @@ export default class ProductDetails extends React.Component {
                 <h5 className="fw-bold fs-5">Product Details</h5>
                 <p>{product.description}</p>
               </div>
-              <div className="col-6 text-center order-md-first">
+              <div className="col-6 text-center d-flex flex-column justify-content-center order-md-first">
                 <img className="img-fluid" src={product.imageUrl} />
                 <div className="py-3 text-secondary">Base Colors May Vary</div>
               </div>
@@ -156,8 +155,8 @@ export default class ProductDetails extends React.Component {
               </Row>
               <hr />
             </div >
-          </div>
-        </Container>
+          </Container>
+        </>
       );
     }
   }

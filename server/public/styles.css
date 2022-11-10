@@ -71,6 +71,20 @@ body {
   top: 0;
 }
 
-/* .accordion::active {
-  color: white;
+.accordion-button:focus {
+  border-color: white;
+}
+
+.p-name,
+.p-price {
+  font-size: calc(0.5rem + 1vw);
+}
+
+a:hover {
+  text-shadow: 0.5px 0.5px 1px rgb(183, 190, 193);
+  color: black;
+}
+
+/* .list-group {
+  flex: 1 1 0;
 } */
