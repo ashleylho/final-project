@@ -38,3 +38,11 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
 }
+
+.accordion-button {
+  padding: 1rem 0;
+}
+
+.accordion-body {
+  padding: 1rem 0;
+}

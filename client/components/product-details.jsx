@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import parseRoute from '../lib/parse-route';
 import Row from 'react-bootstrap/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Accordion from 'react-bootstrap/Accordion';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -24,6 +25,9 @@ export default class ProductDetails extends React.Component {
       .then(res => res.json())
       .then(product => this.setState({ product, loading: true }))
       .catch(err => console.error(err));
+    if (this.state.product === {}) {
+      this.setState({ loading: false });
+    }
   }
 
   sizes() {
@@ -32,12 +36,12 @@ export default class ProductDetails extends React.Component {
       sizes.push(this.state.product[i].size);
     }
     const listItems = sizes.map(size => {
-      return <ListGroup.Item key={size}>
+      return <ListGroup.Item className="border border-secondary d-inline-block w-auto mx-1 rounded my-2" key={size}>
         <div>{size}</div>
       </ListGroup.Item>;
     });
     return (
-      <ListGroup>
+      <ListGroup className="d-flex flex-row flex-wrap">
         {listItems}
       </ListGroup>
     );
@@ -54,44 +58,50 @@ export default class ProductDetails extends React.Component {
             <div className="py-3 text-secondary">Base Colors May Vary</div>
           </div>
           <hr />
-          <p>Select Size(cm)</p>
-          <div>{this.sizes()}</div>
+          <p className="mb-0">Select Size(cm)</p>
+          {this.sizes()}
           <p className="fw-bold">${product.price / 100}</p>
           <hr />
           <h5 className="fw-bold">Product Details</h5>
           <p>{product.description}</p>
           <hr />
-          <h5 className="fw-bold">Specs</h5>
+          <Accordion flush>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>Specs</Accordion.Header>
+              <Accordion.Body>
+                <Row>
+                  <div className="col-3 fw-bold">Profile Type</div>
+                  <div className="col-9">{product.profileDescription}</div>
+                </Row>
+                <hr />
+                <Row>
+                  <div className="col-3 fw-bold">Flex</div>
+                  <div className="col-9">{product.flex}</div>
+                </Row>
+                <hr />
+                <Row>
+                  <div className="col-3 fw-bold">Shape</div>
+                  <div className="col-9">{product.shapeName} - {product.shapeDescription}</div>
+                </Row>
+                <hr />
+                <Row>
+                  <div className="col-3 fw-bold">Edge Tech</div>
+                  <div className="col-9">{product.edgeTechName} - {product.edgeTechDescription}</div>
+                </Row>
+                <hr />
+                <Row>
+                  <div className="col-3 fw-bold">Ability Level</div>
+                  <div className="col-9">{product.abilityLevel}</div>
+                </Row>
+                <hr />
+                <Row>
+                  <div className="col-3 fw-bold">Terrain</div>
+                  <div className="col-9">{product.terrain}</div>
+                </Row>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
           <hr />
-          <Row>
-            <div className="col-3 fw-bold">Profile Type</div>
-            <div className="col-9">{product.profileDescription}</div>
-          </Row>
-          <hr />
-          <Row>
-            <div className="col-3 fw-bold">Flex</div>
-            <div className="col-9">{product.flex}</div>
-          </Row>
-          <hr />
-          <Row>
-            <div className="col-3 fw-bold">Shape</div>
-            <div className="col-9">{product.shapeName} - {product.shapeDescription}</div>
-          </Row>
-          <hr />
-          <Row>
-            <div className="col-3 fw-bold">Edge Tech</div>
-            <div className="col-9">{product.edgeTechName} - {product.edgeTechDescription}</div>
-          </Row>
-          <hr />
-          <Row>
-            <div className="col-3 fw-bold">Ability Level</div>
-            <div className="col-9">{product.abilityLevel}</div>
-          </Row>
-          <hr />
-          <Row>
-            <div className="col-3 fw-bold">Terrain</div>
-            <div className="col-9">{product.terrain}</div>
-          </Row>
         </Container>
       );
     }
