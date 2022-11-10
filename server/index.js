@@ -3,10 +3,11 @@ const express = require('express');
 const staticMiddleware = require('./static-middleware');
 const errorMiddleware = require('./error-middleware');
 const ClientError = require('./client-error');
+const jsonMiddleware = express.json();
 const pg = require('pg');
-
 const app = express();
 
+app.use(jsonMiddleware);
 app.use(staticMiddleware);
 
 const db = new pg.Pool({
@@ -66,6 +67,14 @@ select   "name",
       res.status(200).json(product);
     })
     .catch(err => next(err));
+});
+
+app.post('/api/products', (req, res, next) => {
+  const sql = `
+  insert into "cart" ("purchased")
+              values ('false')
+  returning *
+  `;
 });
 
 app.use(errorMiddleware);
