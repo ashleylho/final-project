@@ -22,7 +22,7 @@ export default class Products extends React.Component {
       return <ListGroup.Item as="a" href={`#products?product=${product.productId}`} className="border-0 col-sm-6 col-6 col-lg-3" key={product.productId}>
         <div>
           <img className="w-100" src={product.imageUrl} />
-          <h5 className="mt-4 text-center">{product.name}</h5>
+          <h5 className="mt-4 text-center">{product.name} Snowboard</h5>
           <h5 className="text-center fw-bold">{`$${product.price / 100}`}</h5>
           <hr />
         </div>

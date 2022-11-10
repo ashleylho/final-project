@@ -12,7 +12,6 @@ export default class ProductDetails extends React.Component {
       product: {},
       route: parseRoute(window.location.hash),
       loading: false
-      // specsAreOpen: false
     };
     this.sizes = this.sizes.bind(this);
   }
@@ -36,7 +35,7 @@ export default class ProductDetails extends React.Component {
       sizes.push(this.state.product[i].size);
     }
     const listItems = sizes.map(size => {
-      return <ListGroup.Item className="border border-secondary d-inline-block w-auto mx-1 rounded my-2" key={size}>
+      return <ListGroup.Item className="fs-5 border border-secondary d-inline-block w-auto mx-1 rounded my-3" key={size}>
         <div>{size}</div>
       </ListGroup.Item>;
     });
@@ -50,20 +49,26 @@ export default class ProductDetails extends React.Component {
   render() {
     if (this.state.loading === true) {
       const product = this.state.product[0];
+      const terrain = product.terrain;
+      const result = terrain.join(', ');
       return (
         <Container>
-          <div className="text-center">
-            <h1 className="fw-bold py-3">{product.name}</h1>
-            <img className="img-fluid" src={product.imageUrl} />
-            <div className="py-3 text-secondary">Base Colors May Vary</div>
+          <div>
+            <Row>
+              <h1 className="text-center fw-bold py-3">{product.name} Snowboard</h1>
+              <div className="text-center">
+                <img className="img-fluid" src={product.imageUrl} />
+                <div className="py-3 text-secondary">Base Colors May Vary</div>
+              </div>
+              <hr />
+              <p className="mb-0">Select Size(cm)</p>
+              {this.sizes()}
+              <p className="fw-bold">${product.price / 100}</p>
+              <hr />
+              <h5 className="fw-bold">Product Details</h5>
+              <p>{product.description}</p>
+            </Row>
           </div>
-          <hr />
-          <p className="mb-0">Select Size(cm)</p>
-          {this.sizes()}
-          <p className="fw-bold">${product.price / 100}</p>
-          <hr />
-          <h5 className="fw-bold">Product Details</h5>
-          <p>{product.description}</p>
           <hr />
           <Accordion flush>
             <Accordion.Item eventKey="0">
@@ -71,7 +76,7 @@ export default class ProductDetails extends React.Component {
               <Accordion.Body>
                 <Row>
                   <div className="col-3 fw-bold">Profile Type</div>
-                  <div className="col-9">{product.profileDescription}</div>
+                  <div className="col-9">{product.profileName} - {product.profileDescription}</div>
                 </Row>
                 <hr />
                 <Row>
@@ -96,12 +101,62 @@ export default class ProductDetails extends React.Component {
                 <hr />
                 <Row>
                   <div className="col-3 fw-bold">Terrain</div>
-                  <div className="col-9">{product.terrain}</div>
+                  <div className="col-9">{result}</div>
                 </Row>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
           <hr />
+          <div>
+            <Row className="d-md-flex flex-row flex-wrap">
+              <div className="col-6">
+                <h1 className="col fw-bold py-3">{product.name} Snowboard</h1>
+                <p className="mb-0 fs-5">Select Size(cm)</p>
+                {this.sizes()}
+                <p className="fw-bold fs-4">${product.price / 100}</p>
+                <h5 className="fw-bold fs-5">Product Details</h5>
+                <p>{product.description}</p>
+              </div>
+              <div className="col-6 text-center order-md-first">
+                <img className="img-fluid" src={product.imageUrl} />
+                <div className="py-3 text-secondary">Base Colors May Vary</div>
+              </div>
+            </Row>
+            <div>
+              <h5 className="fw-bold">Specs</h5>
+              <hr />
+              <Row>
+                <div className="col-3 fw-bold">Profile Type</div>
+                <div className="col-9">{product.profileName} - {product.profileDescription}</div>
+              </Row>
+              <hr />
+              <Row>
+                <div className="col-3 fw-bold">Flex</div>
+                <div className="col-9">{product.flex}</div>
+              </Row>
+              <hr />
+              <Row>
+                <div className="col-3 fw-bold">Shape</div>
+                <div className="col-9">{product.shapeName} - {product.shapeDescription}</div>
+              </Row>
+              <hr />
+              <Row>
+                <div className="col-3 fw-bold">Edge Tech</div>
+                <div className="col-9">{product.edgeTechName} - {product.edgeTechDescription}</div>
+              </Row>
+              <hr />
+              <Row>
+                <div className="col-3 fw-bold">Ability Level</div>
+                <div className="col-9">{product.abilityLevel}</div>
+              </Row>
+              <hr />
+              <Row>
+                <div className="col-3 fw-bold">Terrain</div>
+                <div className="col-9">{result}</div>
+              </Row>
+              <hr />
+            </div >
+          </div>
         </Container>
       );
     }
