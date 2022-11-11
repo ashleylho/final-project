@@ -93,18 +93,10 @@ app.post('/api/products', (req, res, next) => {
         const params = [payload.cartId, productId, quantity, size];
         db.query(sql, params)
           .then(result => {
-            res.json(result.rows[0]);
+            res.json({ token, cartItem: result.rows[0] });
           })
           .catch(err => next(err));
       })
-      // })
-    // db.query(cartSql)
-    //   .then(result => {
-    //     const cartId = result.rows[0];
-    //     const payload = cartId;
-    //     const token = jwt.sign(payload, process.env.TOKEN_SECRET);
-    //     res.json({ token, cartId: payload });
-    //   })
       .catch(err => next(err));
   } else {
     const payload = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -119,7 +111,7 @@ app.post('/api/products', (req, res, next) => {
     const params = [cartId, productId, quantity, size];
     db.query(sql, params)
       .then(result => {
-        res.json(result.rows[0]);
+        res.json({ token, cartItem: result.rows[0] });
       })
       .catch(err => next(err));
   }
