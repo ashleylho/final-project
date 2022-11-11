@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Accordion from 'react-bootstrap/Accordion';
+import Button from 'react-bootstrap/Button';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -57,7 +58,18 @@ export default class ProductDetails extends React.Component {
           <hr />
           <p className="mb-0">Select Size(cm)</p>
           {this.sizes()}
-          <p className="fw-bold fs-5">${product.price / 100}</p>
+          <p className="fw-bold fs-5 mb-1">${product.price / 100}</p>
+          <p className="mb-1">Quantity</p>
+          <div className="d-flex justify-content-between">
+            <div className="col-4 me-1">
+              <i className="bi bi-plus-circle fs-2" />
+              <span className= "px-3 py-1 border border-dark rounded mx-2">1</span>
+              <i className="bi bi-dash-circle fs-2" />
+            </div>
+            <div className="col-8">
+              <Button className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
+            </div>
+          </div>
           <hr />
           <h5 className="fw-bold">Product Details</h5>
           <p>{product.description}</p>

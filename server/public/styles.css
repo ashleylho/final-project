@@ -95,3 +95,7 @@ a:hover {
 .size-btn:active {
   font-weight: 600;
 }
+
+.add-to-cart {
+  background-color: #557190;
+}
