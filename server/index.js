@@ -73,32 +73,54 @@ select   "name",
 app.post('/api/products', (req, res, next) => {
   const token = req.get('X-Access-Token');
   if (!token) {
-    const sql = `
+    const cartSql = `
       insert into "cart" ("purchased")
               values ('false')
       returning "cartId"
     `;
-    db.query(sql)
+    db.query(cartSql)
       .then(result => {
         const cartId = result.rows[0];
         const payload = cartId;
         const token = jwt.sign(payload, process.env.TOKEN_SECRET);
-        res.json({ token, cartId: payload });
+        const cartItem = req.body;
+        const { productId, quantity, size } = cartItem;
+        const sql = `
+          insert into "cartItems" ("cartId", "productId", "quantity", "size")
+          values ($1, $2, $3, $4)
+          returning *
+        `;
+        const params = [payload.cartId, productId, quantity, size];
+        db.query(sql, params)
+          .then(result => {
+            res.json(result.rows[0]);
+          })
+          .catch(err => next(err));
       })
+      // })
+    // db.query(cartSql)
+    //   .then(result => {
+    //     const cartId = result.rows[0];
+    //     const payload = cartId;
+    //     const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+    //     res.json({ token, cartId: payload });
+    //   })
       .catch(err => next(err));
   } else {
     const payload = jwt.verify(token, process.env.TOKEN_SECRET);
     const cartId = payload.cartId;
     const cartItem = req.body;
     const { productId, quantity, size } = cartItem;
-    const sql1 = `
+    const sql = `
       insert into "cartItems" ("cartId", "productId", "quantity", "size")
       values ($1, $2, $3, $4)
       returning *
     `;
     const params = [cartId, productId, quantity, size];
-    db.query(sql1, params)
-      .then(result => res.json(result.rows[0]))
+    db.query(sql, params)
+      .then(result => {
+        res.json(result.rows[0]);
+      })
       .catch(err => next(err));
   }
 });
