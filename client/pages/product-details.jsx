@@ -30,6 +30,10 @@ export default class ProductDetails extends React.Component {
   }
 
   addToCart(event) {
+    event.preventDefault();
+    if (this.state.size === null) {
+      alert('Please select a size.');
+    }
     const cartItem = {
       productId: this.props.productId,
       quantity: 1,
@@ -136,20 +140,22 @@ export default class ProductDetails extends React.Component {
             <div className="col-6">
               <h2 className="col fw-bold py-3">{product.name} Snowboard</h2>
               <p className="mb-0 fs-5">Select Size(cm)</p>
-              {this.sizes()}
-              <p className="fw-bold fs-4">${product.price / 100}</p>
-              <p>{product.description}</p>
-              <p className="mb-1">Quantity</p>
-              <div className="d-flex justify-content-between">
-                <div className="col-lg-4 quantity">
-                  <i className="bi bi-plus-circle fs-2" />
-                  <span className="fs-4 px-4 py-1 border border-dark rounded mx-2">1</span>
-                  <i className="bi bi-dash-circle fs-2" />
+              <form onSubmit={this.addToCart}>
+                {this.sizes()}
+                <p className="fw-bold fs-4">${product.price / 100}</p>
+                <p>{product.description}</p>
+                <p className="mb-1">Quantity</p>
+                <div className="d-flex justify-content-between">
+                  <div className="col-lg-4 quantity">
+                    <i className="bi bi-plus-circle fs-2" />
+                    <span className="fs-4 px-4 py-1 border border-dark rounded mx-2">1</span>
+                    <i className="bi bi-dash-circle fs-2" />
+                  </div>
+                  <div className="col-lg-8">
+                    <Button type="submit" className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
+                  </div>
                 </div>
-                <div className="col-lg-8">
-                  <Button className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
-                </div>
-              </div>
+              </form>
             </div>
             <div className="col-6 d-img text-center d-flex flex-column justify-content-center order-md-first">
               <img className="p-img" src={product.imageUrl} />
