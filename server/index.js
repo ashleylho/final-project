@@ -86,6 +86,20 @@ app.post('/api/products', (req, res, next) => {
         res.json({ token, cartId: payload });
       })
       .catch(err => next(err));
+  } else {
+    const payload = jwt.verify(token, process.env.TOKEN_SECRET);
+    const cartId = payload.cartId;
+    const cartItem = req.body;
+    const { productId, quantity, size } = cartItem;
+    const sql1 = `
+      insert into "cartItems" ("cartId", "productId", "quantity", "size")
+      values ($1, $2, $3, $4)
+      returning *
+    `;
+    const params = [cartId, productId, quantity, size];
+    db.query(sql1, params)
+      .then(result => res.json(result.rows[0]))
+      .catch(err => next(err));
   }
 });
 
