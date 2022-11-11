@@ -1,7 +1,6 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 
@@ -14,7 +13,7 @@ export default class ProductDetails extends React.Component {
       size: null
     };
     this.sizes = this.sizes.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.addToCart = this.addToCart.bind(this);
   }
 
@@ -25,8 +24,9 @@ export default class ProductDetails extends React.Component {
       .catch(err => console.error(err));
   }
 
-  handleClick(event) {
-    this.setState({ size: Number(event.target.dataset.id) });
+  handleChange(event) {
+    const { value } = event.target;
+    this.setState({ size: Number(value) });
   }
 
   addToCart(event) {
@@ -48,16 +48,15 @@ export default class ProductDetails extends React.Component {
 
   sizes() {
     const sizes = this.state.product.sizes;
-    const listItems = sizes.map(size => {
-      return <ListGroup.Item as="button" onClick={this.handleClick} data-id={size} className="size-btn fs-5 border border-secondary d-inline-block w-auto mx-1 rounded my-3" key={size}>
-        {size}
-      </ListGroup.Item>;
+    const sizeInputs = sizes.map(size => {
+      return (
+        <label key={size} className="size-label px-2 fs-5 size-btn border border-secondary mx-1 rounded my-2">
+          <input className="size-input" type="radio" value={size} id={size} name="sizes" onChange={this.handleChange} />
+          <span>{size}</span>
+        </label>
+      );
     });
-    return (
-      <ListGroup className="d-flex flex-row flex-wrap">
-        {listItems}
-      </ListGroup>
-    );
+    return sizeInputs;
   }
 
   render() {
@@ -75,19 +74,21 @@ export default class ProductDetails extends React.Component {
           </div>
           <hr />
           <p className="mb-0">Select Size(cm)</p>
-          {this.sizes()}
-          <p className="fw-bold fs-5 mb-1">${product.price / 100}</p>
-          <p className="mb-1">Quantity</p>
-          <div className="d-flex justify-content-between">
-            <div className="col-4 me-1">
-              <i className="bi bi-plus-circle fs-2" />
-              <span className= "px-3 py-1 border border-dark rounded mx-2">1</span>
-              <i className="bi bi-dash-circle fs-2" />
+          <form onSubmit={this.addToCart}>
+            {this.sizes()}
+            <p className="fw-bold fs-5 mb-1">${product.price / 100}</p>
+            <p className="mb-1">Quantity</p>
+            <div className="d-flex justify-content-between">
+              <div className="col-4 me-1">
+                <i className="bi bi-plus-circle fs-2" />
+                <span className= "px-3 py-1 border border-dark rounded mx-2">1</span>
+                <i className="bi bi-dash-circle fs-2" />
+              </div>
+              <div className="col-8">
+                <Button type="submit" className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
+              </div>
             </div>
-            <div className="col-8">
-              <Button onClick={this.addToCart} className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
-            </div>
-          </div>
+          </form>
           <hr />
           <h5 className="fw-bold">Product Details</h5>
           <p>{product.description}</p>
@@ -146,7 +147,7 @@ export default class ProductDetails extends React.Component {
                   <i className="bi bi-dash-circle fs-2" />
                 </div>
                 <div className="col-lg-8">
-                  <Button onClick={this.addToCart} className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
+                  <Button className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
                 </div>
               </div>
             </div>
