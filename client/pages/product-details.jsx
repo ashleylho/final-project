@@ -122,12 +122,12 @@ export default class ProductDetails extends React.Component {
               <p>{product.description}</p>
               <p className="mb-1">Quantity</p>
               <div className="d-flex justify-content-between">
-                <div className="col-4 me-1">
+                <div className="col-lg-4 quantity">
                   <i className="bi bi-plus-circle fs-2" />
                   <span className="fs-4 px-4 py-1 border border-dark rounded mx-2">1</span>
                   <i className="bi bi-dash-circle fs-2" />
                 </div>
-                <div className="col-8">
+                <div className="col-lg-8">
                   <Button className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
                 </div>
               </div>
