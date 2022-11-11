@@ -15,6 +15,7 @@ export default class ProductDetails extends React.Component {
     };
     this.sizes = this.sizes.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.addToCart = this.addToCart.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +27,23 @@ export default class ProductDetails extends React.Component {
 
   handleClick(event) {
     this.setState({ size: Number(event.target.dataset.id) });
+  }
+
+  addToCart(event) {
+    const cartItem = {
+      productId: this.props.productId,
+      quantity: 1,
+      size: this.state.size
+    };
+    fetch('api/products', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cartItem)
+    })
+      .then(res => res.json())
+      .catch(err => console.error(err));
   }
 
   sizes() {
@@ -67,7 +85,7 @@ export default class ProductDetails extends React.Component {
               <i className="bi bi-dash-circle fs-2" />
             </div>
             <div className="col-8">
-              <Button className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
+              <Button onClick={this.addToCart} className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
             </div>
           </div>
           <hr />
@@ -128,7 +146,7 @@ export default class ProductDetails extends React.Component {
                   <i className="bi bi-dash-circle fs-2" />
                 </div>
                 <div className="col-lg-8">
-                  <Button className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
+                  <Button onClick={this.addToCart} className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
                 </div>
               </div>
             </div>
