@@ -9,9 +9,11 @@ export default class ProductDetails extends React.Component {
     super(props);
     this.state = {
       product: null,
-      loading: true
+      loading: true,
+      size: null
     };
     this.sizes = this.sizes.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -21,11 +23,15 @@ export default class ProductDetails extends React.Component {
       .catch(err => console.error(err));
   }
 
+  handleClick(event) {
+    this.setState({ size: Number(event.target.dataset.id) });
+  }
+
   sizes() {
     const sizes = this.state.product.sizes;
     const listItems = sizes.map(size => {
-      return <ListGroup.Item className="fs-5 border border-secondary d-inline-block w-auto mx-1 rounded my-3" key={size}>
-        <div>{size}</div>
+      return <ListGroup.Item as="button" onClick={this.handleClick} data-id={size} className="size-btn fs-5 border border-secondary d-inline-block w-auto mx-1 rounded my-3" key={size}>
+        {size}
       </ListGroup.Item>;
     });
     return (

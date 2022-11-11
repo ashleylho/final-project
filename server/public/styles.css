@@ -90,3 +90,8 @@ a:hover {
 .d-img {
   max-height: 600px;
 }
+
+.size-btn:focus,
+.size-btn:active {
+  font-weight: 600;
+}
