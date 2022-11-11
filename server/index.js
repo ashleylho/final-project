@@ -4,6 +4,7 @@ const staticMiddleware = require('./static-middleware');
 const errorMiddleware = require('./error-middleware');
 const ClientError = require('./client-error');
 const jsonMiddleware = express.json();
+const jwt = require('jsonwebtoken');
 const pg = require('pg');
 const app = express();
 
@@ -70,11 +71,22 @@ select   "name",
 });
 
 app.post('/api/products', (req, res, next) => {
-  const sql = `
-  insert into "cart" ("purchased")
+  const token = req.get('X-Access-Token');
+  if (!token) {
+    const sql = `
+      insert into "cart" ("purchased")
               values ('false')
-  returning *
-  `;
+      returning "cartId"
+    `;
+    db.query(sql)
+      .then(result => {
+        const cartId = result.rows[0];
+        const payload = cartId;
+        const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+        res.json({ token, cartId: payload });
+      })
+      .catch(err => next(err));
+  }
 });
 
 app.use(errorMiddleware);
