@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
+import CartModal from '../components/cart-modal';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -10,11 +11,14 @@ export default class ProductDetails extends React.Component {
     this.state = {
       product: null,
       loading: true,
-      size: null
+      size: null,
+      isOpen: false
     };
     this.sizes = this.sizes.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.addToCart = this.addToCart.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +52,15 @@ export default class ProductDetails extends React.Component {
     })
       .then(res => res.json())
       .catch(err => console.error(err));
+    this.openModal();
+  }
+
+  openModal() {
+    this.setState({ isOpen: true });
+  }
+
+  closeModal() {
+    this.setState({ isOpen: false });
   }
 
   sizes() {
@@ -197,6 +210,7 @@ export default class ProductDetails extends React.Component {
             <hr />
           </div >
         </Container>
+        <CartModal show={this.state.isOpen} onHide={this.closeModal} />
       </>
     );
   }
