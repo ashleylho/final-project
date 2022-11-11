@@ -120,6 +120,17 @@ export default class ProductDetails extends React.Component {
               {this.sizes()}
               <p className="fw-bold fs-4">${product.price / 100}</p>
               <p>{product.description}</p>
+              <p className="mb-1">Quantity</p>
+              <div className="d-flex justify-content-between">
+                <div className="col-4 me-1">
+                  <i className="bi bi-plus-circle fs-2" />
+                  <span className="fs-4 px-4 py-1 border border-dark rounded mx-2">1</span>
+                  <i className="bi bi-dash-circle fs-2" />
+                </div>
+                <div className="col-8">
+                  <Button className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
+                </div>
+              </div>
             </div>
             <div className="col-6 d-img text-center d-flex flex-column justify-content-center order-md-first">
               <img className="p-img" src={product.imageUrl} />

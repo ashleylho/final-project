@@ -94,8 +94,14 @@ a:hover {
 .size-btn:focus,
 .size-btn:active {
   font-weight: 600;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
 }
 
 .add-to-cart {
   background-color: #557190;
+}
+
+.add-to-cart:hover {
+  background-color: #557190;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
