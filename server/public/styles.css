@@ -76,8 +76,8 @@ body {
   font-size: calc(0.5rem + 1vw);
 }
 
-a:hover {
-  text-shadow: 0.5px 0.5px 1px rgb(183, 190, 193);
+.product-link:hover {
+  text-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
   color: black;
 }
 
@@ -91,19 +91,15 @@ a:hover {
   max-height: 600px;
 }
 
-/* .size-btn:focus,
-.size-btn:active {
-  font-weight: 600;
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
-} */
-
-.add-to-cart {
+.add-to-cart,
+.cont-shop-btn {
   background-color: #557190;
 }
 
-.add-to-cart:hover {
+.add-to-cart:hover,
+.cont-shop-btn:hover {
   background-color: #557190;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
 }
 
 input[type="radio"] {
