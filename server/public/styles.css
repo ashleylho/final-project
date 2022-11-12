@@ -21,7 +21,6 @@ body {
 
 .nav-link {
   font-size: calc(0.5rem + 1vw);
-  margin-top: 15px;
   color: black;
 }
 
@@ -109,4 +108,8 @@ input[type="radio"] {
 
 input:checked ~ span {
   font-weight: bold;
+}
+
+.nav-prod-link {
+  flex: 1;
 }
