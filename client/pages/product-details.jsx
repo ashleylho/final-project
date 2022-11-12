@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import CartModal from '../components/cart-modal';
-// import jwtDecode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -14,7 +14,6 @@ export default class ProductDetails extends React.Component {
       loading: true,
       size: null,
       isOpen: false,
-      tokenStored: false,
       cart: null
     };
     this.sizes = this.sizes.bind(this);
@@ -30,10 +29,8 @@ export default class ProductDetails extends React.Component {
       .then(product => this.setState({ product, loading: false }))
       .catch(err => console.error(err));
     const token = window.localStorage.getItem('token');
-    // const tokenStored = token ? jwtDecode(token) : null;
-    if (token) {
-      this.setState({ cart: tokenStored, tokenStored: true });
-    }
+    const tokenStored = token ? jwtDecode(token) : null;
+    this.setState({ cart: tokenStored });
   }
 
   handleChange(event) {
