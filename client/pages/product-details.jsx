@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import CartModal from '../components/cart-modal';
+// import jwtDecode from 'jwt-decode';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -12,7 +13,9 @@ export default class ProductDetails extends React.Component {
       product: null,
       loading: true,
       size: null,
-      isOpen: false
+      isOpen: false,
+      tokenStored: false,
+      cart: null
     };
     this.sizes = this.sizes.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -26,6 +29,11 @@ export default class ProductDetails extends React.Component {
       .then(res => res.json())
       .then(product => this.setState({ product, loading: false }))
       .catch(err => console.error(err));
+    const token = window.localStorage.getItem('token');
+    // const tokenStored = token ? jwtDecode(token) : null;
+    if (token) {
+      this.setState({ cart: tokenStored, tokenStored: true });
+    }
   }
 
   handleChange(event) {
@@ -37,22 +45,43 @@ export default class ProductDetails extends React.Component {
     event.preventDefault();
     if (this.state.size === null) {
       alert('Please select a size.');
+    } else {
+      const cartItem = {
+        productId: this.props.productId,
+        quantity: 1,
+        size: this.state.size
+      };
+      const token = window.localStorage.getItem('token');
+      if (this.state.cart) {
+        fetch('api/products', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Access-Token': token
+          },
+          body: JSON.stringify(cartItem)
+        })
+          .then(res => res.json())
+          .then(res => {
+            this.openModal();
+          })
+          .catch(err => console.error(err));
+      } else if (!this.state.cart) {
+        fetch('api/products', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(cartItem)
+        })
+          .then(res => res.json())
+          .then(res => {
+            window.localStorage.setItem('token', res.token);
+            this.openModal();
+          })
+          .catch(err => console.error(err));
+      }
     }
-    const cartItem = {
-      productId: this.props.productId,
-      quantity: 1,
-      size: this.state.size
-    };
-    fetch('api/products', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(cartItem)
-    })
-      .then(res => res.json())
-      .catch(err => console.error(err));
-    this.openModal();
   }
 
   openModal() {
@@ -210,7 +239,7 @@ export default class ProductDetails extends React.Component {
             <hr />
           </div >
         </Container>
-        <CartModal productInfo={this.state.product} size={this.state.size} show={this.state.isOpen} onHide={this.closeModal} />
+        <CartModal productinfo={this.state.product} size={this.state.size} show={this.state.isOpen} onHide={this.closeModal} />
       </>
     );
   }

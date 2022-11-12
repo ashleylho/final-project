@@ -17,13 +17,13 @@ export default function CartModal(props) {
       <Modal.Body>
         <div className="w-100 d-flex">
           <div className="col-6">
-            <img className="img-fluid" src={props.productInfo.imageUrl} />
+            <img className="img-fluid" src={props.productinfo.imageUrl} />
           </div>
           <div className="col-6">
-            <h5 className="mt-4">{props.productInfo.name} Snowboard</h5>
+            <h5 className="mt-4">{props.productinfo.name} Snowboard</h5>
             <h5 className="fw-light">Size: {props.size}</h5>
             <h5 className="fw-light">Qty: 1</h5>
-            <h5 className="fw-light">Price: ${props.productInfo.price / 100}</h5>
+            <h5 className="fw-light">Price: ${props.productinfo.price / 100}</h5>
           </div>
         </div>
       </Modal.Body>
