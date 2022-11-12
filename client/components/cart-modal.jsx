@@ -6,7 +6,6 @@ export default function CartModal(props) {
   return (
     <Modal
       {...props}
-      // size="sm"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
@@ -18,13 +17,13 @@ export default function CartModal(props) {
       <Modal.Body>
         <div className="w-100 d-flex">
           <div className="col-6">
-            <img className="img-fluid" src="https://images.evo.com/imgp/700/220847/914108/roxy-xoxo-pro-c3-snowboard-women-s-2023-.jpg" />
+            <img className="img-fluid" src={props.productInfo.imageUrl} />
           </div>
           <div className="col-6">
-            <h5 className="mt-4">Roxy XOXO Snowboard</h5>
-            <h5 className="fw-light">Size: 145</h5>
+            <h5 className="mt-4">{props.productInfo.name} Snowboard</h5>
+            <h5 className="fw-light">Size: {props.size}</h5>
             <h5 className="fw-light">Qty: 1</h5>
-            <h5 className="fw-light">Price: $599.99</h5>
+            <h5 className="fw-light">Price: ${props.productInfo.price / 100}</h5>
           </div>
         </div>
       </Modal.Body>
