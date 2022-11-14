@@ -13,6 +13,23 @@
     margin-left: 3rem;
     margin-right: 3rem;
   }
+
+  .cart-item {
+    width: 95%;
+  }
+
+  .cart-img {
+    width: 75%;
+  }
+
+  .cart-details h6 {
+    font-size: calc(0.5rem + 1vw);
+  }
+
+  .empty-cart {
+    width: 75%;
+    margin: 0 auto;
+  }
 }
 
 @media only screen and (max-width: 767px) {

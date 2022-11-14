@@ -91,7 +91,8 @@ body {
 }
 
 .add-to-cart,
-.cart-btn {
+.cart-btn,
+.empty-cart-btn {
   background-color: #557190;
 }
 
@@ -110,7 +111,8 @@ body {
 }
 
 .add-to-cart:hover,
-.cart-btn:hover {
+.cart-btn:hover,
+.empty-cart-btn:hover {
   background-color: #557190;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
 }
@@ -133,7 +135,8 @@ input:checked ~ span {
 }
 
 .cart-item,
-.order-sum-card {
+.order-sum-card,
+.empty-cart {
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
 }
 
