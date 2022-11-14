@@ -42,7 +42,9 @@ export default class Cart extends React.Component {
             <h6 className="fw-light">{item.name} Snowboard</h6>
             <h6 className="fw-light">Size: {item.size}</h6>
             <h6 className="fw-light">Qty: <span className="fw-bold">1</span></h6>
-            <h6 className="fw-light">Price: <span className="fw-bold">${item.price / 100}</span></h6>
+            <h6 className="fw-light">
+              Price: <span className="fw-bold">${item.price / 100}</span>
+            </h6>
           </div>
         </div>
       </ListGroup.Item>;
@@ -55,11 +57,13 @@ export default class Cart extends React.Component {
     this.state.cartItems.map(item => {
       return (subtotal += item.price);
     });
-    return subtotal / 100;
+    subtotal = subtotal / 100;
+    subtotal = subtotal.toLocaleString('en-US');
+    return subtotal;
   }
 
   cart() {
-    if (this.state.cartItems.length === 0) {
+    if (!this.state.cartItems.length) {
       return (
         <div className="mt-3 empty-cart-container">
           <div className="empty-cart text-center py-5 fs-4 px-2 rounded border border-secondary mx-3">
@@ -101,17 +105,6 @@ export default class Cart extends React.Component {
   }
 
   render() {
-    // if (this.state.cartItems.length === 0) {
-    //   return (
-    //     <div className="d-flex flex-column justify-content-center">
-    //       <div className="text-center py-5 fs-4 rounded border border-secondary w-50 mx-auto">
-    //         Your shopping cart is currently empty.
-    //         {/* <span className="d-block fs-4">Your shopping cart is currently empty.</span> */}
-    //       </div>
-    //       <Button as="a" href="#products" className="my-4 empty-cart border-0 w-50 mx-auto">Shop for Gear</Button>
-    //     </div>
-    //   );
-    // } else {
     return (
       <div className="shopping-cart">
         <div className="d-flex justify-content-between mb-2">
@@ -125,32 +118,6 @@ export default class Cart extends React.Component {
           </div>
         </div>
         {this.cart()}
-        {/* <div className="cart-and-summary">
-          {this.cartItems()}
-          <div className="col-md-4">
-            <Card className="order-sum-card mx-3 mb-3 mt-2">
-              <Card.Header className="fs-4 order-sum-header">Order Summary</Card.Header>
-              <ListGroup variant="flush">
-                <ListGroup.Item className="d-flex fw-bold text-secondary justify-content-between">
-                  <span>Subtotal</span>
-                  <span>${this.subtotal()}</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex text-secondary justify-content-between">
-                  <span>Standard Shipping</span>
-                  <span>FREE</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex text-secondary justify-content-between">
-                  <span>Estimated Taxes</span>
-                  <span>--</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex text-secondary fw-bold justify-content-between">
-                  <span>Order Total</span>
-                  <span>${this.subtotal()}</span>
-                </ListGroup.Item>
-              </ListGroup>
-            </Card>
-          </div>
-        </div> */}
       </div >
     );
   }
