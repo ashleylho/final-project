@@ -46,8 +46,10 @@ export default class App extends React.Component {
       const productId = route.params.get('product');
       return <ProductDetails productId={productId}/>;
     }
-    if (path === 'cart') {
+    if (path === 'cart' && this.state.cart) {
       return <Cart cartId={this.state.cart.cartId}/>;
+    } else if (!this.state.cart) {
+      return <Cart />;
     }
   }
 

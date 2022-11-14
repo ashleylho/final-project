@@ -27,8 +27,17 @@
   }
 
   .empty-cart {
-    width: 75%;
-    margin: 0 auto;
+    width: 50%;
+  }
+
+  .empty-cart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .empty-cart-btn {
+    width: 50%;
   }
 }
 

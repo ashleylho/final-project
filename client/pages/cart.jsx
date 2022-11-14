@@ -6,7 +6,10 @@ import Button from 'react-bootstrap/Button';
 export default class Cart extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { cartItems: [] };
+    this.state = {
+      cartId: null,
+      cartItems: []
+    };
     this.cartItems = this.cartItems.bind(this);
     this.subtotal = this.subtotal.bind(this);
     this.cart = this.cart.bind(this);
@@ -14,15 +17,17 @@ export default class Cart extends React.Component {
 
   componentDidMount() {
     const token = window.localStorage.getItem('token');
-    fetch('api/products/cart/{this.props.cartId}', {
-      method: 'GET',
-      headers: {
-        'X-Access-Token': token
-      }
-    })
-      .then(res => res.json())
-      .then(cart => this.setState({ cartItems: cart }))
-      .catch(err => console.error(err));
+    if (token) {
+      fetch('api/products/cart/{this.props.cartId}', {
+        method: 'GET',
+        headers: {
+          'X-Access-Token': token
+        }
+      })
+        .then(res => res.json())
+        .then(cart => this.setState({ cartId: this.props.cartId, cartItems: cart }))
+        .catch(err => console.error(err));
+    }
   }
 
   cartItems() {
@@ -56,7 +61,7 @@ export default class Cart extends React.Component {
   cart() {
     if (this.state.cartItems.length === 0) {
       return (
-        <div className="mt-3">
+        <div className="mt-3 empty-cart-container">
           <div className="empty-cart text-center py-5 fs-4 px-2 rounded border border-secondary mx-3">
             <span className="d-block fs-4 py-5">Your shopping cart is currently empty.</span>
           </div>
@@ -64,32 +69,34 @@ export default class Cart extends React.Component {
         </div>
       );
     } else {
-      <div className="cart-and-summary">
-        {this.cartItems()}
-        <div className="col-md-4">
-          <Card className="order-sum-card mx-3 mb-3 mt-2">
-            <Card.Header className="fs-4 order-sum-header">Order Summary</Card.Header>
-            <ListGroup variant="flush">
-              <ListGroup.Item className="d-flex fw-bold text-secondary justify-content-between">
-                <span>Subtotal</span>
-                <span>${this.subtotal()}</span>
-              </ListGroup.Item>
-              <ListGroup.Item className="d-flex text-secondary justify-content-between">
-                <span>Standard Shipping</span>
-                <span>FREE</span>
-              </ListGroup.Item>
-              <ListGroup.Item className="d-flex text-secondary justify-content-between">
-                <span>Estimated Taxes</span>
-                <span>--</span>
-              </ListGroup.Item>
-              <ListGroup.Item className="d-flex text-secondary fw-bold justify-content-between">
-                <span>Order Total</span>
-                <span>${this.subtotal()}</span>
-              </ListGroup.Item>
-            </ListGroup>
-          </Card>
+      return (
+        <div className="cart-and-summary">
+          {this.cartItems()}
+          <div className="col-md-4">
+            <Card className="order-sum-card mx-3 mb-3 mt-2">
+              <Card.Header className="fs-4 order-sum-header">Order Summary</Card.Header>
+              <ListGroup variant="flush">
+                <ListGroup.Item className="d-flex fw-bold text-secondary justify-content-between">
+                  <span>Subtotal</span>
+                  <span>${this.subtotal()}</span>
+                </ListGroup.Item>
+                <ListGroup.Item className="d-flex text-secondary justify-content-between">
+                  <span>Standard Shipping</span>
+                  <span>FREE</span>
+                </ListGroup.Item>
+                <ListGroup.Item className="d-flex text-secondary justify-content-between">
+                  <span>Estimated Taxes</span>
+                  <span>--</span>
+                </ListGroup.Item>
+                <ListGroup.Item className="d-flex text-secondary fw-bold justify-content-between">
+                  <span>Order Total</span>
+                  <span>${this.subtotal()}</span>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </div>
         </div>
-      </div>;
+      );
     }
   }
 
