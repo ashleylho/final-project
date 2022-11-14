@@ -117,6 +117,29 @@ app.post('/api/products', (req, res, next) => {
   }
 });
 
+app.get('/api/products/cart/:cartId', (req, res, next) => {
+  const token = req.get('X-Access-Token');
+  const payload = jwt.verify(token, process.env.TOKEN_SECRET);
+  const cartId = payload.cartId;
+  const sql = `
+  select "name",
+         "price",
+         "size",
+         "quantity"
+    from "cart"
+    join "cartItems" using("cartId")
+    join "snowboards" using("productId")
+   where "cartId" = $1
+`;
+  const params = [cartId];
+  db.query(sql, params)
+    .then(result => {
+      const cartItems = result.rows;
+      res.status(200).json(cartItems);
+    })
+    .catch(err => next(err));
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
