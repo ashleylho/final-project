@@ -3,10 +3,12 @@ const express = require('express');
 const staticMiddleware = require('./static-middleware');
 const errorMiddleware = require('./error-middleware');
 const ClientError = require('./client-error');
+const jsonMiddleware = express.json();
+const jwt = require('jsonwebtoken');
 const pg = require('pg');
-
 const app = express();
 
+app.use(jsonMiddleware);
 app.use(staticMiddleware);
 
 const db = new pg.Pool({
@@ -66,6 +68,53 @@ select   "name",
       res.status(200).json(product);
     })
     .catch(err => next(err));
+});
+
+app.post('/api/products', (req, res, next) => {
+  const token = req.get('X-Access-Token');
+  if (!token) {
+    const cartSql = `
+      insert into "cart" ("purchased")
+              values ('false')
+      returning "cartId"
+    `;
+    db.query(cartSql)
+      .then(result => {
+        const cartId = result.rows[0];
+        const payload = cartId;
+        const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+        const cartItem = req.body;
+        const { productId, quantity, size } = cartItem;
+        const sql = `
+          insert into "cartItems" ("cartId", "productId", "quantity", "size")
+          values ($1, $2, $3, $4)
+          returning *
+        `;
+        const params = [payload.cartId, productId, quantity, size];
+        db.query(sql, params)
+          .then(result => {
+            res.json({ token, cartItem: result.rows[0] });
+          })
+          .catch(err => next(err));
+      })
+      .catch(err => next(err));
+  } else {
+    const payload = jwt.verify(token, process.env.TOKEN_SECRET);
+    const cartId = payload.cartId;
+    const cartItem = req.body;
+    const { productId, quantity, size } = cartItem;
+    const sql = `
+      insert into "cartItems" ("cartId", "productId", "quantity", "size")
+      values ($1, $2, $3, $4)
+      returning *
+    `;
+    const params = [cartId, productId, quantity, size];
+    db.query(sql, params)
+      .then(result => {
+        res.json({ token, cartItem: result.rows[0] });
+      })
+      .catch(err => next(err));
+  }
 });
 
 app.use(errorMiddleware);

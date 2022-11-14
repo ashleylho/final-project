@@ -18,7 +18,7 @@ export default class Products extends React.Component {
 
   render() {
     const listItems = this.state.products.map(product => {
-      return <ListGroup.Item as="a" href={`#product?product=${product.productId}`} className="border-0 col-sm-6 col-6 col-lg-3" key={product.productId}>
+      return <ListGroup.Item as="a" href={`#product?product=${product.productId}`} className="product-link border-0 col-sm-6 col-6 col-lg-3" key={product.productId}>
         <div>
           <img className="w-100" src={product.imageUrl} />
           <h5 className="p-name mt-4 text-center">{product.name} Snowboard</h5>
