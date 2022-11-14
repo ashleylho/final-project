@@ -125,7 +125,8 @@ app.get('/api/products/cart/:cartId', (req, res, next) => {
   select "name",
          "price",
          "size",
-         "quantity"
+         "quantity",
+         "imageUrl"
     from "cart"
     join "cartItems" using("cartId")
     join "snowboards" using("productId")
