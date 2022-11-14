@@ -7,6 +7,7 @@ import Navigation from './components/navbar';
 import Products from './pages/products';
 import ProductDetails from './pages/product-details';
 import parseRoute from './lib/parse-route';
+import Cart from './pages/cart';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -39,6 +40,9 @@ export default class App extends React.Component {
     if (path === 'product') {
       const productId = route.params.get('product');
       return <ProductDetails productId={productId}/>;
+    }
+    if (path === 'cart') {
+      return <Cart />;
     }
   }
 
