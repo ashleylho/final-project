@@ -7,6 +7,7 @@ const jsonMiddleware = express.json();
 const jwt = require('jsonwebtoken');
 const pg = require('pg');
 const app = express();
+const stripe = require('stripe')(process.env.STRIPE_TEST);
 
 app.use(jsonMiddleware);
 app.use(staticMiddleware);
@@ -174,6 +175,20 @@ app.post('/api/checkout', (req, res, next) => {
         .catch(err => next(err));
     })
     .catch(err => next(err));
+});
+
+app.post('/create-payment-intent', async (req, res) => {
+  const { total } = req.body;
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: total,
+    currency: 'usd',
+    automatic_payment_methods: {
+      enabled: true
+    }
+  });
+  res.send({
+    clientSecret: paymentIntent.client_secret
+  });
 });
 
 app.use(errorMiddleware);
