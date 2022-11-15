@@ -77,7 +77,7 @@ export default class Cart extends React.Component {
       return (
         <div className="cart-and-summary">
           {this.cartItems()}
-          <OrderSummary subtotal={subtotal(this.state.cartItems)}/>
+          <OrderSummary subtotal={subtotal(this.state.cartItems)} checkout='Proceed to Checkout'/>
           {/* <div className="col-md-4">
             <Card className="order-sum-card mx-3 mb-3 mt-2">
               <Card.Header className="fs-4 order-sum-header">Order Summary</Card.Header>

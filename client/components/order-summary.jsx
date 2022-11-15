@@ -29,7 +29,7 @@ export default class OrderSummary extends React.Component {
           </ListGroup>
         </Card>
         <div className="d-flex justify-content-center">
-          <Button as="a" className="mx-3 checkout-btn border-0 w-100" href="#checkout">Proceed to Checkout</Button>
+          <Button as="a" className="mx-3 checkout-btn border-0 w-100" href="#checkout">{this.props.checkout}</Button>
         </div>
       </div>
     );
