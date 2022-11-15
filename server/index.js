@@ -171,7 +171,18 @@ app.post('/api/checkout', (req, res, next) => {
       `;
       const params = [cartId, customerId, total];
       db.query(sql, params)
-        .then(result => res.json(result.rows[0]))
+        .then(result => {
+          const sql = `
+          update "cart"
+          set "purchased" = true
+          where "cartId" = $1
+          returning *
+          `;
+          const params = [cartId];
+          db.query(sql, params)
+            .then(result => res.json(result.rows[0]))
+            .catch(err => next(err));
+        })
         .catch(err => next(err));
     })
     .catch(err => next(err));
