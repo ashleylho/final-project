@@ -53,7 +53,7 @@ export default class Cart extends React.Component {
 
   subtotal() {
     let subtotal = 0;
-    this.state.cartItems.map(item => {
+    this.state.cartItems.forEach(item => {
       return (subtotal += item.price);
     });
     subtotal = subtotal / 100;
