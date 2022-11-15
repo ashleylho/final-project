@@ -27,8 +27,7 @@ CREATE TABLE "public"."snowboards" (
 
 CREATE TABLE "public"."sizes" (
 	"productId" int NOT NULL,
-	"size" int NOT NULL,
-	CONSTRAINT "sizes_pk" PRIMARY KEY ("size")
+	"size" int NOT NULL
 ) WITH (
   OIDS=FALSE
 );
@@ -149,4 +148,3 @@ ALTER TABLE "reviews" ADD CONSTRAINT "reviews_fk0" FOREIGN KEY ("productId") REF
 
 ALTER TABLE "cartItems" ADD CONSTRAINT "cartItems_fk0" FOREIGN KEY ("cartId") REFERENCES "cart"("cartId");
 ALTER TABLE "cartItems" ADD CONSTRAINT "cartItems_fk1" FOREIGN KEY ("productId") REFERENCES "snowboards"("productId");
-ALTER TABLE "cartItems" ADD CONSTRAINT "cartItems_fk2" FOREIGN KEY ("size") REFERENCES "sizes"("size");
