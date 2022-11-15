@@ -2,6 +2,43 @@
   .product-details-mobile {
     display: none;
   }
+
+  .shopping-cart {
+    margin: auto 3rem;
+  }
+
+  .cart-and-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 3rem;
+    margin-right: 3rem;
+  }
+
+  .cart-item {
+    width: 95%;
+  }
+
+  .cart-img {
+    width: 75%;
+  }
+
+  .cart-details h6 {
+    font-size: calc(0.5rem + 1vw);
+  }
+
+  .empty-cart {
+    width: 50%;
+  }
+
+  .empty-cart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .empty-cart-btn {
+    width: 50%;
+  }
 }
 
 @media only screen and (max-width: 767px) {

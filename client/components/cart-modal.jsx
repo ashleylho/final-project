@@ -28,7 +28,8 @@ export default function CartModal(props) {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button as="a" className="w-100 cont-shop-btn border-0" href="#products" onClick={props.onHide}>Continue Shopping</Button>
+        <Button as="a" className="w-100 cart-btn border-0" href="#cart" onClick={props.onHide}>Checkout Now</Button>
+        <Button as="a" className="w-100 cont-shop-btn" href="#products" onClick={props.onHide}>Continue Shopping</Button>
       </Modal.Footer>
     </Modal>
   );

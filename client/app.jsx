@@ -7,12 +7,15 @@ import Navigation from './components/navbar';
 import Products from './pages/products';
 import ProductDetails from './pages/product-details';
 import parseRoute from './lib/parse-route';
+import Cart from './pages/cart';
+import jwtDecode from 'jwt-decode';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      route: parseRoute(window.location.hash)
+      route: parseRoute(window.location.hash),
+      cart: null
     };
     this.renderPage = this.renderPage.bind(this);
   }
@@ -23,6 +26,9 @@ export default class App extends React.Component {
         route: parseRoute(window.location.hash)
       });
     });
+    const token = window.localStorage.getItem('token');
+    const tokenStored = token ? jwtDecode(token) : null;
+    this.setState({ cart: tokenStored });
   }
 
   renderPage() {
@@ -39,6 +45,11 @@ export default class App extends React.Component {
     if (path === 'product') {
       const productId = route.params.get('product');
       return <ProductDetails productId={productId}/>;
+    }
+    if (path === 'cart' && this.state.cart) {
+      return <Cart cartId={this.state.cart.cartId}/>;
+    } else if (!this.state.cart) {
+      return <Cart />;
     }
   }
 
