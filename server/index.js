@@ -144,6 +144,26 @@ app.get('/api/cart', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.post('/api/personalinfo', (req, res, next) => {
+  const token = req.get('X-Access-Token');
+  const personalInfo = req.body;
+  const { email, firstName, lastName, address, address2, city, state, zip } = personalInfo;
+  if (!token) {
+    throw new ClientError(404, 'Cart was not found.');
+  }
+  const sql = `
+  insert into "customer" ("email", "firstName", "lastName", "address", "address2", "city", "state", "zip")
+  values ($1, $2, $3, $4, $5, $6, $7, $8)
+  returning *
+  `;
+  const params = [email, firstName, lastName, address, address2, city, state, zip];
+  db.query(sql, params)
+    .then(result => {
+      res.status(200).json(result.rows[0]);
+    })
+    .catch(err => next(err));
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
