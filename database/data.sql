@@ -26,7 +26,9 @@ values ('Roxy XOXO', '49999', 'https://images.evo.com/imgp/700/220847/914108/rox
        ('Roxy Raina', '39999', 'https://images.evo.com/imgp/700/220850/914109/roxy-raina-snowboard-women-s-2023-.jpg', 'The Roxy Raina C2 Snowboard is custom made for riders progressing from zero to shred. Combining top shelf features like C2 Contour Technology and Magne-Traction® edges with a soft, easygoing flex, the Raina is a beginner friendly package that won''t hold you back when you slide into more challenging terrain.',
        '2', 'Soft-Medium', '1', '1', 'Beginner-Intermediate', '["All-Mountain"]'),
        ('GNU Gloss', '42999', 'https://images.evo.com/imgp/700/220835/899323/gnu-gloss-c2e-snowboard-women-s-2023-.jpg', 'The GNU Gloss C2E Snowboard is what snowboarding is all about. Sure it uses some pretty fancy tech like Magne-Traction edges and a C2e rocker profile, and it comes with a stylishly witchy design, but at it''s core this board is all about simple pleasures. It''s a blunted freestyle twin that''s built for glory day in the park and dream days hot lapping with your friends. It''s poppy, playful, approachable, and fast. It''s simple snowboarding, done right.',
-       '2', 'Medium', '1', '1', 'Intermediate-Advanced', '["Freestyle"]');
+       '2', 'Medium', '1', '1', 'Intermediate-Advanced', '["Freestyle"]'),
+       ('Roxy Breeze', '44999', 'https://images.evo.com/imgp/700/220851/914112/roxy-breeze-c2-snowboard-women-s-2023-.jpg', 'Shoot the breeze with a board that feels just right from the get go. The Roxy Breeze C2 Snowboard combines a smooth riding C2 Hybrid contour with grippy Magne-Traction® edges for precision edge control in any snow conditions. With mild taper and a slightly setback stance, the Breeze makes it easy to maintain control and keep your nose up in powder, perfect for the rider who loves soul surfing through fields of fresh.',
+       '2', 'Medium', '2', '1', 'Intermediate-Advanced', '["All-Mountain"]');
 
 insert into "sizes" ("productId", "size")
 values ('1', '145'),
@@ -52,4 +54,8 @@ values ('1', '145'),
        ('7', '136'),
        ('7', '140'),
        ('7', '144'),
-       ('7', '148');
+       ('7', '148'),
+       ('8', '140'),
+       ('8', '144'),
+       ('8', '151'),
+       ('8', '154');
