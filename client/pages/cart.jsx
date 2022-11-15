@@ -17,14 +17,14 @@ export default class Cart extends React.Component {
   componentDidMount() {
     const token = window.localStorage.getItem('token');
     if (token) {
-      fetch('api/products/cart/{this.props.cartId}', {
+      fetch('api/cart', {
         method: 'GET',
         headers: {
           'X-Access-Token': token
         }
       })
         .then(res => res.json())
-        .then(cart => this.setState({ cartId: this.props.cartId, cartItems: cart }))
+        .then(cart => this.setState({ cartItems: cart }))
         .catch(err => console.error(err));
     }
   }

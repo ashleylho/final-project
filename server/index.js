@@ -117,8 +117,11 @@ app.post('/api/products', (req, res, next) => {
   }
 });
 
-app.get('/api/products/cart/:cartId', (req, res, next) => {
+app.get('/api/cart', (req, res, next) => {
   const token = req.get('X-Access-Token');
+  if (!token) {
+    return res.json([]);
+  }
   const payload = jwt.verify(token, process.env.TOKEN_SECRET);
   const cartId = payload.cartId;
   const sql = `
