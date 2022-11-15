@@ -144,10 +144,12 @@ app.get('/api/cart', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/api/personalinfo', (req, res, next) => {
+app.post('/api/checkout', (req, res, next) => {
   const token = req.get('X-Access-Token');
-  const personalInfo = req.body;
-  const { email, firstName, lastName, address, address2, city, state, zip } = personalInfo;
+  const payload = jwt.verify(token, process.env.TOKEN_SECRET);
+  const cartId = payload.cartId;
+  const checkoutInfo = req.body;
+  const { email, firstName, lastName, address, address2, city, state, zip, total } = checkoutInfo;
   if (!token) {
     throw new ClientError(404, 'Cart was not found.');
   }
@@ -159,7 +161,17 @@ app.post('/api/personalinfo', (req, res, next) => {
   const params = [email, firstName, lastName, address, address2, city, state, zip];
   db.query(sql, params)
     .then(result => {
-      res.status(200).json(result.rows[0]);
+      const customer = result.rows[0];
+      const { customerId } = customer;
+      const sql = `
+        insert into "orders" ("cartId", "customerId", "total")
+        values ($1, $2, $3)
+        returning *
+      `;
+      const params = [cartId, customerId, total];
+      db.query(sql, params)
+        .then(result => res.json(result.rows[0]))
+        .catch(err => next(err));
     })
     .catch(err => next(err));
 });
