@@ -9,6 +9,7 @@ import ProductDetails from './pages/product-details';
 import parseRoute from './lib/parse-route';
 import Cart from './pages/cart';
 import jwtDecode from 'jwt-decode';
+import Checkout from './pages/checkout';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -50,6 +51,9 @@ export default class App extends React.Component {
       return <Cart cartId={this.state.cart.cartId}/>;
     } else if (!this.state.cart) {
       return <Cart />;
+    }
+    if (path === 'checkout') {
+      return <Checkout />;
     }
   }
 
