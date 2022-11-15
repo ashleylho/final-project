@@ -11,7 +11,7 @@ export default class Cart extends React.Component {
     };
     this.cartItems = this.cartItems.bind(this);
     this.subtotal = this.subtotal.bind(this);
-    this.cart = this.cart.bind(this);
+    this.orderSummary = this.orderSummary.bind(this);
   }
 
   componentDidMount() {
@@ -61,7 +61,7 @@ export default class Cart extends React.Component {
     return subtotal;
   }
 
-  cart() {
+  orderSummary() {
     if (!this.state.cartItems.length) {
       return (
         <div className="mt-3 empty-cart-container">
@@ -97,6 +97,9 @@ export default class Cart extends React.Component {
                 </ListGroup.Item>
               </ListGroup>
             </Card>
+            <div className="d-flex justify-content-center">
+              <Button as="a" className="mx-3 checkout-btn border-0 w-100" href="#checkout">Proceed to Checkout</Button>
+            </div>
           </div>
         </div>
       );
@@ -116,7 +119,7 @@ export default class Cart extends React.Component {
             <span className="fs-6">Subtotal</span>
           </div>
         </div>
-        {this.cart()}
+        {this.orderSummary()}
       </div >
     );
   }
