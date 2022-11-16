@@ -13,7 +13,7 @@ export default class Cart extends React.Component {
     };
     this.cartItems = this.cartItems.bind(this);
     // this.subtotal = this.subtotal.bind(this);
-    this.orderSummary = this.orderSummary.bind(this);
+    this.cart = this.cart.bind(this);
   }
 
   componentDidMount() {
@@ -63,7 +63,7 @@ export default class Cart extends React.Component {
   //   return subtotal;
   // }
 
-  orderSummary() {
+  cart() {
     if (!this.state.cartItems.length) {
       return (
         <div className="mt-3 empty-cart-container">
@@ -77,7 +77,12 @@ export default class Cart extends React.Component {
       return (
         <div className="cart-and-summary">
           {this.cartItems()}
-          <OrderSummary subtotal={subtotal(this.state.cartItems)} checkout='Proceed to Checkout'/>
+          <div className="col-md-4">
+            <OrderSummary subtotal={subtotal(this.state.cartItems)}/>
+            <div className="d-flex justify-content-center">
+              <Button as="a" className="mx-3 checkout-btn border-0 w-100" href="#checkout">Proceed to Checkout</Button>
+            </div>
+          </div>
           {/* <div className="col-md-4">
             <Card className="order-sum-card mx-3 mb-3 mt-2">
               <Card.Header className="fs-4 order-sum-header">Order Summary</Card.Header>
@@ -122,7 +127,7 @@ export default class Cart extends React.Component {
             <span className="fs-6">Subtotal</span>
           </div>
         </div>
-        {this.orderSummary()}
+        {this.cart()}
       </div >
     );
   }

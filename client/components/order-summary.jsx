@@ -1,12 +1,11 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 
 export default class OrderSummary extends React.Component {
   render() {
     return (
-      <div className="col-md-4">
+      <div className="">
         <Card className="order-sum-card mx-3 mb-3 mt-2">
           <Card.Header className="fs-4 order-sum-header">Order Summary</Card.Header>
           <ListGroup variant="flush">
@@ -28,9 +27,6 @@ export default class OrderSummary extends React.Component {
             </ListGroup.Item>
           </ListGroup>
         </Card>
-        <div className="d-flex justify-content-center">
-          <Button as="a" className="mx-3 checkout-btn border-0 w-100" href="#checkout">{this.props.checkout}</Button>
-        </div>
       </div>
     );
   }
