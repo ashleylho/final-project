@@ -43,10 +43,12 @@ class Checkout extends React.Component {
   nextButton() {
     if (this.state.checkout === 'contactInfo') {
       return (
-        <>
+        <div className="col-md-4">
           <OrderSummary />
-          <Button type="button" onClick={this.payment}>Continue to Payment</Button>
-        </>
+          <div className="d-flex justify-content-center">
+            <Button type="button" className="mx-3 mb-3 w-100 ctn-to-payment-btn border-0" onClick={this.payment}>Continue to Payment</Button>
+          </div>
+        </div>
       );
     }
     return null;
@@ -81,11 +83,13 @@ class Checkout extends React.Component {
   };
 
   render() {
+    const header = this.state.checkout === 'contactInfo' ? 'Personal Information' : 'Payment Information';
     return (
       <>
-        <h5>Personal Information</h5>
+        <h5 className="mx-3 mt-3">{header}</h5>
         <Form onSubmit={this.handleSubmit}>
-          <ContactInfo
+          <div className="d-md-flex">
+            <ContactInfo
             handleChange={this.handleChange}
             email={this.state.email}
             firstName={this.state.firstName}
@@ -97,7 +101,8 @@ class Checkout extends React.Component {
             zip={this.state.zip}
             checkout={this.state.checkout}
          />
-          {this.nextButton()}
+            {this.nextButton()}
+          </div>
           <CheckoutForm checkout={this.state.checkout}/>
         </Form>
       </>
@@ -143,11 +148,15 @@ class CheckoutForm extends React.Component {
     }
     return (
     // <form onSubmit={this.handleSubmit}>
-      <>
-        <PaymentElement />
-        <OrderSummary />
-        <button>Submit and give me yo money</button>
-      </>
+      <div className="d-md-flex">
+        <PaymentElement className="mx-3 my-3 col-md-8"/>
+        <div className="col-md-4">
+          <OrderSummary />
+          <div className="d-flex justify-content-center">
+            <Button type="submit" className="mx-3 mb-3 w-100 ctn-to-payment-btn border-0">Place Order</Button>
+          </div>
+        </div>
+      </div>
     // </form>
     );
   }
@@ -254,7 +263,7 @@ class ContactInfo extends React.Component {
       return null;
     }
     return (
-      <div className="mx-3 border px-3 py-2 rounded mb-4">
+      <div className="mx-3 border px-3 col-md-8 py-2 rounded mb-4">
         <Form.Group>
           <Form.Label>Email</Form.Label>
           <Form.Control

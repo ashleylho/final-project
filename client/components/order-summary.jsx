@@ -19,11 +19,11 @@ export default class OrderSummary extends React.Component {
             </ListGroup.Item>
             <ListGroup.Item className="d-flex text-secondary justify-content-between">
               <span>Estimated Taxes</span>
-              <span>--</span>
+              <span>{this.props.taxes}</span>
             </ListGroup.Item>
             <ListGroup.Item className="d-flex text-secondary fw-bold justify-content-between">
               <span>Order Total</span>
-              <span>${this.props.subtotal}</span>
+              <span>${this.props.total}</span>
             </ListGroup.Item>
           </ListGroup>
         </Card>

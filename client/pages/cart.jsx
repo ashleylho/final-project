@@ -3,7 +3,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 // import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import OrderSummary from '../components/order-summary';
-import totalCost from '../lib/subtotal';
+import totalCost from '../lib/totalCost';
 
 export default class Cart extends React.Component {
   constructor(props) {
@@ -55,7 +55,6 @@ export default class Cart extends React.Component {
 
   cart() {
     const total = totalCost(this.state.cartItems);
-    console.log(total);
     if (!this.state.cartItems.length) {
       return (
         <div className="mt-3 empty-cart-container">
@@ -70,7 +69,7 @@ export default class Cart extends React.Component {
         <div className="cart-and-summary">
           {this.cartItems()}
           <div className="col-md-4">
-            <OrderSummary subtotal={total.subtotal}/>
+            <OrderSummary subtotal={total.subtotal} taxes="--" total={total.subtotal}/>
             <div className="d-flex justify-content-center">
               <Button as="a" className="mx-3 checkout-btn border-0 w-100" href="#checkout">Proceed to Checkout</Button>
             </div>
