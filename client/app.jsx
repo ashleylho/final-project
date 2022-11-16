@@ -9,7 +9,7 @@ import ProductDetails from './pages/product-details';
 import parseRoute from './lib/parse-route';
 import Cart from './pages/cart';
 import jwtDecode from 'jwt-decode';
-import Checkout from './pages/checkout';
+import CheckoutPage from './pages/checkout';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -53,7 +53,7 @@ export default class App extends React.Component {
       return <Cart />;
     }
     if (path === 'checkout') {
-      return <Checkout />;
+      return <CheckoutPage />;
     }
   }
 
