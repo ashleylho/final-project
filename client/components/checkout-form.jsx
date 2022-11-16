@@ -56,6 +56,30 @@ class Checkout extends React.Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    const token = window.localStorage.getItem('token');
+    const address2 = this.state.address2 === '' ? null : this.state.address2;
+    const body = {
+      email: this.state.email,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      address: this.state.address,
+      address2,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip,
+      total: 45678
+    };
+    fetch('/api/checkout', {
+      method: 'POST',
+      headers: {
+        'X-Access-Token': token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+      .then(res => res.json())
+      .then(res => console.log('this works'))
+      .catch(err => console.error(err));
 
     const { stripe, elements } = this.props;
 
@@ -149,7 +173,7 @@ class CheckoutForm extends React.Component {
     return (
     // <form onSubmit={this.handleSubmit}>
       <div className="d-md-flex">
-        <PaymentElement className="mx-3 my-3 col-md-8"/>
+        <PaymentElement className="mx-3 mb-3 col-md-8"/>
         <div className="col-md-4">
           <OrderSummary />
           <div className="d-flex justify-content-center">
@@ -299,7 +323,8 @@ class ContactInfo extends React.Component {
             type="text"
             name="address"
             value={this.props.address}
-            required onChange={this.props.handleChange}/>
+            required
+            onChange={this.props.handleChange}/>
         </Form.Group>
         <Form.Group>
           <Form.Label className="mt-2">Address 2</Form.Label>

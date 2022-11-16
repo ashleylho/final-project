@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import Form from 'react-bootstrap/Form';
-// import Col from 'react-bootstrap/Col';
-// import Row from 'react-bootstrap/Row';
-// import OrderSummary from '../components/order-summary';
-// import Button from 'react-bootstrap/Button';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import InjectedCheckoutForm from '../components/checkout-form';
