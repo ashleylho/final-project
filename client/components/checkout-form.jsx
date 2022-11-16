@@ -20,7 +20,7 @@ class Checkout extends React.Component {
       firstName: '',
       lastName: '',
       address: '',
-      address2: null,
+      address2: '',
       city: '',
       state: '',
       zip: ''
@@ -42,7 +42,12 @@ class Checkout extends React.Component {
 
   nextButton() {
     if (this.state.checkout === 'contactInfo') {
-      return <Button type="button" onClick={this.payment}>Continue to Payment</Button>;
+      return (
+        <>
+          <OrderSummary />
+          <Button type="button" onClick={this.payment}>Continue to Payment</Button>
+        </>
+      );
     }
     return null;
   }
@@ -71,9 +76,7 @@ class Checkout extends React.Component {
       console.log(result.error.message);
     } else {
       console.log('hi');
-      // Your customer will be redirected to your `return_url`. For some payment
-      // methods like iDEAL, your customer will be redirected to an intermediate
-      // site first to authorize the payment, then redirected to the `return_url`.
+      // Your customer will be redirected to your `return_url`.
     }
   };
 
@@ -142,6 +145,7 @@ class CheckoutForm extends React.Component {
     // <form onSubmit={this.handleSubmit}>
       <>
         <PaymentElement />
+        <OrderSummary />
         <button>Submit and give me yo money</button>
       </>
     // </form>

@@ -3,7 +3,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 // import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import OrderSummary from '../components/order-summary';
-import subtotal from '../lib/subtotal';
+import totalCost from '../lib/subtotal';
 
 export default class Cart extends React.Component {
   constructor(props) {
@@ -53,17 +53,9 @@ export default class Cart extends React.Component {
     return (<ListGroup className="col-md-8 mb-3">{listItems}</ListGroup>);
   }
 
-  // subtotal() {
-  //   let subtotal = 0;
-  //   this.state.cartItems.forEach(item => {
-  //     return (subtotal += item.price);
-  //   });
-  //   subtotal = subtotal / 100;
-  //   subtotal = subtotal.toLocaleString('en-US');
-  //   return subtotal;
-  // }
-
   cart() {
+    const total = totalCost(this.state.cartItems);
+    console.log(total);
     if (!this.state.cartItems.length) {
       return (
         <div className="mt-3 empty-cart-container">
@@ -78,7 +70,7 @@ export default class Cart extends React.Component {
         <div className="cart-and-summary">
           {this.cartItems()}
           <div className="col-md-4">
-            <OrderSummary subtotal={subtotal(this.state.cartItems)}/>
+            <OrderSummary subtotal={total.subtotal}/>
             <div className="d-flex justify-content-center">
               <Button as="a" className="mx-3 checkout-btn border-0 w-100" href="#checkout">Proceed to Checkout</Button>
             </div>
@@ -115,6 +107,7 @@ export default class Cart extends React.Component {
   }
 
   render() {
+    const cost = totalCost(this.state.cartItems);
     return (
       <div className="shopping-cart">
         <div className="d-flex justify-content-between mb-2">
@@ -123,7 +116,7 @@ export default class Cart extends React.Component {
             <span>{this.state.cartItems.length} item(s)</span>
           </div>
           <div className="px-3 mt-3 text-end">
-            <h4 className="fw-bolder mb-0">${subtotal(this.state.cartItems)}</h4>
+            <h4 className="fw-bolder mb-0">${cost.subtotal}</h4>
             <span className="fs-6">Subtotal</span>
           </div>
         </div>
