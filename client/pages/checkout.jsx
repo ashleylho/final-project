@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements
+} from '@stripe/react-stripe-js';
 import InjectedCheckoutForm from '../components/checkout-form';
 
 const stripePromise = loadStripe('pk_test_51LunS5KbTmfJuQ2gX7JXiXBFsNz5hGUFYM2lwPy83t5vcp2klOQEdMs1icabJ1HGnYZ4Cxn0BgGeiiO2qmqdQwB700kLFc1AF4');
@@ -18,13 +23,13 @@ export default function CheckoutPage() {
         'X-Access-Token': token
       },
       body: JSON.stringify({
-        items: [{ id: 'xl-tshirt' }],
-        total: 45678
+        items: [{ id: 'xl-tshirt' }]
       }
       )
     })
       .then(res => res.json())
-      .then(data => setClientSecret(data.clientSecret));
+      .then(data => setClientSecret(data.clientSecret))
+      .catch(err => console.error(err));
   }, []);
 
   const appearance = {
@@ -40,104 +45,94 @@ export default function CheckoutPage() {
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <InjectedCheckoutForm stripe={stripePromise}/>
+          {/* <CheckoutForm /> */}
         </Elements>
       )}
     </div>
   );
 }
-// class Checkout extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       checkout: 'contactInfo'
-//     };
-//     this.handleSubmit = this.handleSubmit.bind(this);
-//     this.contactInfo = this.contactInfo.bind(this);
-//     this.payment = this.payment.bind(this);
-//     this.handleClick = this.handleClick.bind(this);
-//   }
 
-//   handleSubmit(event) {
-//     const token = window.localStorage.getItem('token');
-//     event.preventDefault();
-//     // fetch('api/checkout', {
-//     //   method: 'POST',
-//     //   headers: {
-//     //     'X-Access-Token': token
-//     //   }
-//   }
+function CheckoutForm() {
+  const stripe = useStripe();
+  const elements = useElements();
 
-//   handleClick(event) {
-//     this.setState({ checkout: 'payment' });
-//   }
+  const [message, setMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-//   contactInfo() {
-//     return (
-//       <>
-// <div className="mx-3 border px-3 py-2 rounded mb-4">
-//   <Form.Group>
-//     <Form.Label>Email</Form.Label>
-//     <Form.Control type="email" required />
-//   </Form.Group>
-//   <Row>
-//     <Form.Group as={Col} xs="6">
-//       <Form.Label className="mt-2">First Name</Form.Label>
-//       <Form.Control type="text" required />
-//     </Form.Group>
-//     <Form.Group as={Col} xs="6">
-//       <Form.Label className="mt-2">Last Name</Form.Label>
-//       <Form.Control type="text" required />
-//     </Form.Group>
-//   </Row>
-//   <Form.Group>
-//     <Form.Label className="mt-2">Address</Form.Label>
-//     <Form.Control type="text" required />
-//   </Form.Group>
-//   <Form.Group>
-//     <Form.Label className="mt-2">Address 2</Form.Label>
-//     <Form.Control type="text" />
-//   </Form.Group>
-//   <Row>
-//     <Form.Group as={Col} xs="5">
-//       <Form.Label className="mt-2">City</Form.Label>
-//       <Form.Control type="text" required />
-//     </Form.Group>
-//     <Form.Group as={Col} xs="3">
-//       <Form.Label className="mt-2">State</Form.Label>
-//       <Form.Control type="text" required />
-//     </Form.Group>
-//     <Form.Group as={Col} xs="4">
-//       <Form.Label className="mt-2">Zip</Form.Label>
-//       <Form.Control type="text" required />
-//     </Form.Group>
-//   </Row>
-// </div>
-//         <OrderSummary subtotal="2555" />
-//         <div className="d-flex justify-content-center">
-//           <Button onClick={this.handleClick} className="payment-btn mx-3 border-0 mb-3 w-100">Continue to Payment</Button>
-//         </div>
-//       </>
-//     );
-//   }
+  useEffect(() => {
+    if (!stripe) {
+      return;
+    }
 
-//   payment() {
-//     return <App />;
-//   }
+    const clientSecret = new URLSearchParams(window.location.search).get(
+      'payment_intent_client_secret'
+    );
 
-//   render() {
-//     return <App />;
-//     // let form;
-//     // if (this.state.checkout === 'contactInfo') {
-//     //   form = this.contactInfo();
-//     // } else if (this.state.checkout === 'payment') {
-//     //   form = this.payment();
-//     // }
-//     // return (
-//     //   <>
-//     //     <h5 className="mx-3 mt-4">Personal Information</h5>
-//     //     <Form onSubmit={this.handleSubmit}>{form}
-//     //     </Form>
-//     //   </>
-//     // );
-//   }
-// }
+    if (!clientSecret) {
+      return;
+    }
+
+    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+      switch (paymentIntent.status) {
+        case 'succeeded':
+          setMessage('Payment succeeded!');
+          break;
+        case 'processing':
+          setMessage('Your payment is processing.');
+          break;
+        case 'requires_payment_method':
+          setMessage('Your payment was not successful, please try again.');
+          break;
+        default:
+          setMessage('Something went wrong.');
+          break;
+      }
+    });
+  }, [stripe]);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    if (!stripe || !elements) {
+      // Stripe.js has not yet loaded.
+      // Make sure to disable form submission until Stripe.js has loaded.
+      return;
+    }
+
+    setIsLoading(true);
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        // Make sure to change this to your payment completion page
+        return_url: 'http://localhost:3000'
+      }
+    });
+
+    // This point will only be reached if there is an immediate error when
+    // confirming the payment. Otherwise, your customer will be redirected to
+    // your `return_url`. For some payment methods like iDEAL, your customer will
+    // be redirected to an intermediate site first to authorize the payment, then
+    // redirected to the `return_url`.
+    if (error.type === 'card_error' || error.type === 'validation_error') {
+      setMessage(error.message);
+    } else {
+      setMessage('An unexpected error occurred.');
+    }
+
+    setIsLoading(false);
+  };
+
+  return (
+    <form id="payment-form" onSubmit={handleSubmit}>
+      <PaymentElement id="payment-element" />
+      <button disabled={isLoading || !stripe || !elements} id="submit">
+        <span id="button-text">
+          {isLoading ? <div className="spinner" id="spinner" /> : 'Pay now'}
+        </span>
+      </button>
+      {/* Show any error or success messages */}
+      {message && <div id="payment-message">{message}</div>}
+    </form>
+  );
+}

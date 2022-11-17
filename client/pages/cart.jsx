@@ -1,6 +1,5 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
-// import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import OrderSummary from '../components/order-summary';
 import totalCost from '../lib/totalCost';
@@ -12,7 +11,6 @@ export default class Cart extends React.Component {
       cartItems: []
     };
     this.cartItems = this.cartItems.bind(this);
-    // this.subtotal = this.subtotal.bind(this);
     this.cart = this.cart.bind(this);
   }
 

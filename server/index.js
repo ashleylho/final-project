@@ -215,7 +215,8 @@ app.post('/create-payment-intent', async (req, res, next) => {
           res.send({
             clientSecret: paymentIntent.client_secret
           });
-        });
+        })
+        .catch(err => next(err));
     })
     .catch(err => next(err));
 
