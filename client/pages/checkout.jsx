@@ -10,9 +10,13 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
+    const token = window.localStorage.getItem('token');
     fetch('/create-payment-intent', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': token
+      },
       body: JSON.stringify({
         items: [{ id: 'xl-tshirt' }],
         total: 45678

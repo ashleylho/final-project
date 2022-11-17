@@ -188,18 +188,37 @@ app.post('/api/checkout', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/create-payment-intent', async (req, res) => {
-  const { total } = req.body;
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: total,
-    currency: 'usd',
-    automatic_payment_methods: {
-      enabled: true
-    }
-  });
-  res.send({
-    clientSecret: paymentIntent.client_secret
-  });
+app.post('/create-payment-intent', async (req, res, next) => {
+  const token = req.get('X-Access-Token');
+  const payload = jwt.verify(token, process.env.TOKEN_SECRET);
+  const cartId = payload.cartId;
+  const sql = `
+  select sum("price")
+    from "snowboards"
+    join "cartItems" using("productId")
+    join "cart" using("cartId")
+   where "cartId" = $1
+  `;
+  const params = [cartId];
+  db.query(sql, params)
+    .then(result => result.rows[0])
+    .then(result => parseInt(result.sum))
+    .then(result => {
+      stripe.paymentIntents.create({
+        amount: result,
+        currency: 'usd',
+        automatic_payment_methods: {
+          enabled: true
+        }
+      })
+        .then(paymentIntent => {
+          res.send({
+            clientSecret: paymentIntent.client_secret
+          });
+        });
+    })
+    .catch(err => next(err));
+
 });
 
 app.use(errorMiddleware);

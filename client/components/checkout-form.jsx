@@ -43,7 +43,7 @@ class Checkout extends React.Component {
   nextButton() {
     if (this.state.checkout === 'contactInfo') {
       return (
-        <div className="col-md-4">
+        <div className="col-md-4 contact-info-summary">
           <OrderSummary />
           <div className="d-flex justify-content-center">
             <Button type="button" className="mx-3 mb-3 w-100 ctn-to-payment-btn border-0" onClick={this.payment}>Continue to Payment</Button>
