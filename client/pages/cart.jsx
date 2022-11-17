@@ -8,7 +8,8 @@ export default class Cart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cartItems: []
+      cartItems: [],
+      total: null
     };
     this.cartItems = this.cartItems.bind(this);
     this.cart = this.cart.bind(this);

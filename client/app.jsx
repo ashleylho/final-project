@@ -10,15 +10,20 @@ import parseRoute from './lib/parse-route';
 import Cart from './pages/cart';
 import jwtDecode from 'jwt-decode';
 import CheckoutPage from './pages/checkout';
+import ConfirmationModal from './components/confirmation-modal';
+import AppContext from './lib/app-context';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       route: parseRoute(window.location.hash),
-      cart: null
+      cart: null,
+      isOpen: false
     };
     this.renderPage = this.renderPage.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentDidMount() {
@@ -30,6 +35,19 @@ export default class App extends React.Component {
     const token = window.localStorage.getItem('token');
     const tokenStored = token ? jwtDecode(token) : null;
     this.setState({ cart: tokenStored });
+  }
+
+  openModal() {
+    this.setState({ isOpen: true });
+  }
+
+  closeModal() {
+    this.setState({ isOpen: false });
+  }
+
+  checkout() {
+    window.localStorage.removeItem('token');
+    this.setState({ cart: null });
   }
 
   renderPage() {
@@ -58,11 +76,16 @@ export default class App extends React.Component {
   }
 
   render() {
+    const { openModal, checkout } = this;
+    const contextValue = { checkout, openModal };
     return (
       <>
         <Navigation />
         <div>
-          {this.renderPage()}
+          <AppContext.Provider value={contextValue}>
+            {this.renderPage()}
+            <ConfirmationModal show={this.state.isOpen} onHide={this.closeModal} />
+          </AppContext.Provider>
         </div>
       </>
     );

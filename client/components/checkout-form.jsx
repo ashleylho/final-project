@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import OrderSummary from '../components/order-summary';
 import Button from 'react-bootstrap/Button';
-import { ElementsConsumer, PaymentElement } from '@stripe/react-stripe-js';
+import {
+  Elements,
+  useStripe,
+  useElements
+  , ElementsConsumer, PaymentElement
+} from '@stripe/react-stripe-js';
+import AppContext from '../lib/app-context';
+
+export default function InjectedCheckoutForm() {
+  return (
+    <ElementsConsumer>
+      {({ stripe, elements }) => (
+        <Checkout stripe={stripe} elements={elements} />
+      )}
+    </ElementsConsumer>
+  );
+}
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -73,7 +89,6 @@ class Checkout extends React.Component {
       body: JSON.stringify(body)
     })
       .then(res => res.json())
-      .then(res => console.log('this works'))
       .catch(err => console.error(err));
 
     const { stripe, elements } = this.props;
@@ -83,7 +98,6 @@ class Checkout extends React.Component {
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
-
     const result = await stripe.confirmPayment({
       // `Elements` instance that was used to create the Payment Element
       elements,
@@ -95,9 +109,6 @@ class Checkout extends React.Component {
     if (result.error) {
       // Show error to your customer (for example, payment details incomplete)
       console.log(result.error.message);
-    } else {
-      console.log('hi');
-      // Your customer will be redirected to your `return_url`.
     }
   };
 
@@ -129,6 +140,59 @@ class Checkout extends React.Component {
   }
 }
 
+// function CheckoutForm(props) {
+//   const stripe = useStripe();
+
+//   const [message, setMessage] = useState(null);
+//   const [isLoading, setIsLoading] = useState(false);
+
+//   useEffect(() => {
+//     if (!stripe) {
+//       return;
+//     }
+
+//     const clientSecret = new URLSearchParams(window.location.search).get(
+//       'payment_intent_client_secret'
+//     );
+
+//     if (!clientSecret) {
+//       return;
+//     }
+
+//     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+//       switch (paymentIntent.status) {
+//         case 'succeeded':
+//           setMessage('Payment succeeded!');
+//           break;
+//         case 'processing':
+//           setMessage('Your payment is processing.');
+//           break;
+//         case 'requires_payment_method':
+//           setMessage('Your payment was not successful, please try again.');
+//           break;
+//         default:
+//           setMessage('Something went wrong.');
+//           break;
+//       }
+//     });
+//   }, [stripe]);
+
+//   if (props.checkout !== 'payment') {
+//     return null;
+//   }
+//   return (
+//     <div className="d-md-flex">
+//       <PaymentElement className="mx-3 mb-3 col-md-8"/>
+//       <div className="col-md-4">
+//         <OrderSummary />
+//         <div className="d-flex justify-content-center">
+//           <Button type="submit" className="mx-3 mb-3 w-100 ctn-to-payment-btn border-0">Place Order</Button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 class CheckoutForm extends React.Component {
   render() {
     if (this.props.checkout !== 'payment') {
@@ -146,16 +210,6 @@ class CheckoutForm extends React.Component {
       </div>
     );
   }
-}
-
-export default function InjectedCheckoutForm() {
-  return (
-    <ElementsConsumer>
-      {({ stripe, elements }) => (
-        <Checkout stripe={stripe} elements={elements} />
-      )}
-    </ElementsConsumer>
-  );
 }
 
 class ContactInfo extends React.Component {
@@ -244,3 +298,5 @@ class ContactInfo extends React.Component {
     );
   }
 }
+
+Checkout.contextType = AppContext;
