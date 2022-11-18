@@ -48,7 +48,12 @@ class Checkout extends React.Component {
   }
 
   payment() {
-    this.setState({ checkout: 'payment' });
+    if (!this.state.email || !this.state.firstName || !this.state.lastName || !this.state.address ||
+        !this.state.city || !this.state.state || !this.state.zip) {
+      alert('Please fill out the missing information.');
+    } else {
+      this.setState({ checkout: 'payment' });
+    }
   }
 
   nextButton() {
