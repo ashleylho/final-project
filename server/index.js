@@ -188,6 +188,26 @@ app.post('/api/checkout', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// app.get('/api/cost', (req, res, next) => {
+//   const token = req.get('X-Access-Token');
+//   const payload = jwt.verify(token, process.env.TOKEN_SECRET);
+//   const cartId = payload.cartId;
+//   const sql = `
+//   select sum("price")
+//     from "snowboards"
+//     join "cartItems" using("productId")
+//     join "cart" using("cartId")
+//    where "cartId" = $1
+//   `;
+//   db.query(sql, params)
+//     .then(result => {
+//       const total = result.rows[0]
+//       const integer = parseInt(result.sum)
+//       const
+//     })
+//     .catch(err => next(err))
+// }
+
 app.post('/create-payment-intent', async (req, res, next) => {
   const token = req.get('X-Access-Token');
   const payload = jwt.verify(token, process.env.TOKEN_SECRET);

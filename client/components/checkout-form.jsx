@@ -42,6 +42,10 @@ class Checkout extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  // componentDidMount() {
+
+  // }
+
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -103,18 +107,30 @@ class Checkout extends React.Component {
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
-    const result = await stripe.confirmPayment({
+
+    const { openModal } = this.context;
+    stripe.confirmPayment({
       // `Elements` instance that was used to create the Payment Element
       elements,
       confirmParams: {
         return_url: 'http://localhost:3000/#home'
       }
-    });
+    })
+      .then(result => openModal())
+      .catch(err => console.error(err));
 
-    if (result.error) {
-      // Show error to your customer (for example, payment details incomplete)
-      console.log(result.error.message);
-    }
+    // const result = await stripe.confirmPayment({
+    //   // `Elements` instance that was used to create the Payment Element
+    //   elements,
+    //   confirmParams: {
+    //     return_url: 'http://localhost:3000/#home'
+    //   }
+    // });
+
+    // if (result.error) {
+    //   // Show error to your customer (for example, payment details incomplete)
+    //   console.log(result.error.message);
+    // }
   };
 
   render() {

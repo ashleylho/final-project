@@ -35,6 +35,10 @@ export default class App extends React.Component {
     const token = window.localStorage.getItem('token');
     const tokenStored = token ? jwtDecode(token) : null;
     this.setState({ cart: tokenStored });
+    const searchParams = new URL(window.location).searchParams;
+    if (searchParams.has('payment_intent')) {
+      this.openModal();
+    }
   }
 
   openModal() {
