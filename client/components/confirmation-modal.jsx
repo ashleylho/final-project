@@ -23,7 +23,7 @@ export default function ConfirmationModal(props) {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button as="a" className="border-0 mx-3 w-100 confirm-shop-btn" href="#products" onClick={props.onHide}>Continue Shopping</Button>
+        <Button as="a" className="border-0 mx-3 w-100 confirm-shop-btn" href="/#products">Continue Shopping</Button>
       </Modal.Footer>
     </Modal>
   );

@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import {
   Elements
 } from '@stripe/react-stripe-js';
 import InjectedCheckoutForm from '../components/checkout-form';
 
-const stripePromise = loadStripe('pk_test_51LunS5KbTmfJuQ2gX7JXiXBFsNz5hGUFYM2lwPy83t5vcp2klOQEdMs1icabJ1HGnYZ4Cxn0BgGeiiO2qmqdQwB700kLFc1AF4');
-
 export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState('');
+  const stripePromiseRef = useRef(loadStripe('pk_test_51LunS5KbTmfJuQ2gX7JXiXBFsNz5hGUFYM2lwPy83t5vcp2klOQEdMs1icabJ1HGnYZ4Cxn0BgGeiiO2qmqdQwB700kLFc1AF4'));
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -21,7 +20,10 @@ export default function CheckoutPage() {
       }
     })
       .then(res => res.json())
-      .then(data => setClientSecret(data.clientSecret))
+      .then(data => {
+        setClientSecret(data.clientSecret);
+      }
+      )
       .catch(err => console.error(err));
   }, []);
 
@@ -36,8 +38,8 @@ export default function CheckoutPage() {
   return (
     <div className="checkout-page">
       {clientSecret && (
-        <Elements options={options} stripe={stripePromise}>
-          <InjectedCheckoutForm stripe={stripePromise}/>
+        <Elements options={options} stripe={stripePromiseRef.current}>
+          <InjectedCheckoutForm stripe={stripePromiseRef.current}/>
         </Elements>
       )}
     </div>

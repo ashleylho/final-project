@@ -107,7 +107,6 @@ class Checkout extends React.Component {
       return;
     }
 
-    const { openModal } = this.context;
     stripe.confirmPayment({
       // `Elements` instance that was used to create the Payment Element
       elements,
@@ -115,21 +114,8 @@ class Checkout extends React.Component {
         return_url: 'http://localhost:3000/#home'
       }
     })
-      .then(result => openModal())
       .catch(err => console.error(err));
 
-    // const result = await stripe.confirmPayment({
-    //   // `Elements` instance that was used to create the Payment Element
-    //   elements,
-    //   confirmParams: {
-    //     return_url: 'http://localhost:3000/#home'
-    //   }
-    // });
-
-    // if (result.error) {
-    //   // Show error to your customer (for example, payment details incomplete)
-    //   console.log(result.error.message);
-    // }
   };
 
   render() {
@@ -159,59 +145,6 @@ class Checkout extends React.Component {
     );
   }
 }
-
-// function CheckoutForm(props) {
-//   const stripe = useStripe();
-
-//   const [message, setMessage] = useState(null);
-//   const [isLoading, setIsLoading] = useState(false);
-
-//   useEffect(() => {
-//     if (!stripe) {
-//       return;
-//     }
-
-//     const clientSecret = new URLSearchParams(window.location.search).get(
-//       'payment_intent_client_secret'
-//     );
-
-//     if (!clientSecret) {
-//       return;
-//     }
-
-//     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-//       switch (paymentIntent.status) {
-//         case 'succeeded':
-//           setMessage('Payment succeeded!');
-//           break;
-//         case 'processing':
-//           setMessage('Your payment is processing.');
-//           break;
-//         case 'requires_payment_method':
-//           setMessage('Your payment was not successful, please try again.');
-//           break;
-//         default:
-//           setMessage('Something went wrong.');
-//           break;
-//       }
-//     });
-//   }, [stripe]);
-
-//   if (props.checkout !== 'payment') {
-//     return null;
-//   }
-//   return (
-//     <div className="d-md-flex">
-//       <PaymentElement className="mx-3 mb-3 col-md-8"/>
-//       <div className="col-md-4">
-//         <OrderSummary />
-//         <div className="d-flex justify-content-center">
-//           <Button type="submit" className="mx-3 mb-3 w-100 ctn-to-payment-btn border-0">Place Order</Button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
 
 class CheckoutForm extends React.Component {
   render() {

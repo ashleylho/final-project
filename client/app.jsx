@@ -12,6 +12,7 @@ import jwtDecode from 'jwt-decode';
 import CheckoutPage from './pages/checkout';
 import ConfirmationModal from './components/confirmation-modal';
 import AppContext from './lib/app-context';
+import removeSearchParam from './lib/remove-search';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -32,13 +33,14 @@ export default class App extends React.Component {
         route: parseRoute(window.location.hash)
       });
     });
-    const token = window.localStorage.getItem('token');
-    const tokenStored = token ? jwtDecode(token) : null;
-    this.setState({ cart: tokenStored });
     const searchParams = new URL(window.location).searchParams;
     if (searchParams.has('payment_intent')) {
+      window.localStorage.removeItem('token');
       this.openModal();
-      this.checkout();
+    } else {
+      const token = window.localStorage.getItem('token');
+      const tokenStored = token ? jwtDecode(token) : null;
+      this.setState({ cart: tokenStored });
     }
   }
 
@@ -48,11 +50,7 @@ export default class App extends React.Component {
 
   closeModal() {
     this.setState({ isOpen: false });
-  }
-
-  checkout() {
-    window.localStorage.removeItem('token');
-    this.setState({ cart: null });
+    window.location.search = '';
   }
 
   renderPage() {
@@ -70,10 +68,11 @@ export default class App extends React.Component {
       const productId = route.params.get('product');
       return <ProductDetails productId={productId}/>;
     }
-    if (path === 'cart' && this.state.cart) {
-      return <Cart cartId={this.state.cart.cartId}/>;
-    } else if (!this.state.cart) {
-      return <Cart />;
+    if (path === 'cart') {
+      const cartId = this.state.cart
+        ? this.state.cart.cartId
+        : null;
+      return <Cart cartId={cartId} />;
     }
     if (path === 'checkout') {
       return <CheckoutPage />;
