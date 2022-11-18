@@ -28,7 +28,8 @@ class Checkout extends React.Component {
       address2: '',
       city: '',
       state: '',
-      zip: ''
+      zip: '',
+      costs: {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.nextButton = this.nextButton.bind(this);
@@ -36,9 +37,18 @@ class Checkout extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // componentDidMount() {
-
-  // }
+  componentDidMount() {
+    const token = window.localStorage.getItem('token');
+    fetch('api/cost', {
+      method: 'GET',
+      headers: {
+        'X-Access-Token': token
+      }
+    })
+      .then(res => res.json())
+      .then(costs => this.setState({ costs }))
+      .catch(err => console.error(err));
+  }
 
   handleChange(event) {
     const { name, value } = event.target;
@@ -58,7 +68,7 @@ class Checkout extends React.Component {
     if (this.state.checkout === 'contactInfo') {
       return (
         <div className="col-md-4 contact-info-summary">
-          <OrderSummary />
+          <OrderSummary subtotal={this.state.costs.subtotal} taxes={`$${this.state.costs.taxes}`} total={this.state.costs.total}/>
           <div className="d-flex justify-content-center">
             <Button type="button" className="mx-3 mb-3 w-100 ctn-to-payment-btn border-0" onClick={this.payment}>Continue to Payment</Button>
           </div>
@@ -134,7 +144,7 @@ class Checkout extends React.Component {
          />
             {this.nextButton()}
           </div>
-          <CheckoutForm checkout={this.state.checkout}/>
+          <CheckoutForm checkout={this.state.checkout} subtotal={this.state.costs.subtotal} taxes={`$${this.state.costs.taxes}`} total={this.state.costs.total}/>
         </Form>
       </>
     );
@@ -150,7 +160,7 @@ class CheckoutForm extends React.Component {
       <div className="d-md-flex">
         <PaymentElement className="mx-3 mb-3 col-md-8"/>
         <div className="col-md-4">
-          <OrderSummary />
+          <OrderSummary subtotal={this.props.subtotal} taxes={this.props.taxes} total={this.props.total}/>
           <div className="d-flex justify-content-center">
             <Button type="submit" className="mx-3 mb-3 w-100 ctn-to-payment-btn border-0">Place Order</Button>
           </div>

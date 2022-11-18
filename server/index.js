@@ -188,25 +188,31 @@ app.post('/api/checkout', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// app.get('/api/cost', (req, res, next) => {
-//   const token = req.get('X-Access-Token');
-//   const payload = jwt.verify(token, process.env.TOKEN_SECRET);
-//   const cartId = payload.cartId;
-//   const sql = `
-//   select sum("price")
-//     from "snowboards"
-//     join "cartItems" using("productId")
-//     join "cart" using("cartId")
-//    where "cartId" = $1
-//   `;
-//   db.query(sql, params)
-//     .then(result => {
-//       const total = result.rows[0]
-//       const integer = parseInt(result.sum)
-//       const
-//     })
-//     .catch(err => next(err))
-// }
+app.get('/api/cost', (req, res, next) => {
+  const token = req.get('X-Access-Token');
+  const payload = jwt.verify(token, process.env.TOKEN_SECRET);
+  const cartId = payload.cartId;
+  const sql = `
+  select sum("price")
+    from "snowboards"
+    join "cartItems" using("productId")
+    join "cart" using("cartId")
+   where "cartId" = $1
+  `;
+  const params = [cartId];
+  db.query(sql, params)
+    .then(result => {
+      const costs = {};
+      costs.subtotal = Number(result.rows[0].sum / 100);
+      console.log('subtotal', costs.subtotal);
+      costs.taxes = (costs.subtotal * 0.0775).toFixed(2);
+      console.log('taxes', costs.taxes);
+      costs.total = (costs.subtotal + Number(costs.taxes));
+      console.log(costs.total);
+      res.json(costs);
+    })
+    .catch(err => next(err));
+});
 
 app.post('/create-payment-intent', async (req, res, next) => {
   const token = req.get('X-Access-Token');
