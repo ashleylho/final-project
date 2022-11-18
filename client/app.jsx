@@ -12,7 +12,6 @@ import jwtDecode from 'jwt-decode';
 import CheckoutPage from './pages/checkout';
 import ConfirmationModal from './components/confirmation-modal';
 import AppContext from './lib/app-context';
-import removeSearchParam from './lib/remove-search';
 
 export default class App extends React.Component {
   constructor(props) {

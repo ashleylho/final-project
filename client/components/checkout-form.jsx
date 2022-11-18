@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import OrderSummary from '../components/order-summary';
 import Button from 'react-bootstrap/Button';
-import {
-  Elements,
-  useStripe,
-  useElements
-  , ElementsConsumer, PaymentElement
-} from '@stripe/react-stripe-js';
+import { ElementsConsumer, PaymentElement } from '@stripe/react-stripe-js';
 
 export default function InjectedCheckoutForm() {
   return (
