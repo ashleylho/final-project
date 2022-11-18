@@ -38,6 +38,7 @@ export default class App extends React.Component {
     const searchParams = new URL(window.location).searchParams;
     if (searchParams.has('payment_intent')) {
       this.openModal();
+      this.checkout();
     }
   }
 

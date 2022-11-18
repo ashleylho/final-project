@@ -10,7 +10,6 @@ import {
   useElements
   , ElementsConsumer, PaymentElement
 } from '@stripe/react-stripe-js';
-import AppContext from '../lib/app-context';
 
 export default function InjectedCheckoutForm() {
   return (
@@ -319,5 +318,3 @@ class ContactInfo extends React.Component {
     );
   }
 }
-
-Checkout.contextType = AppContext;
