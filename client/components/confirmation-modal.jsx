@@ -16,8 +16,8 @@ export default function ConfirmationModal(props) {
       </Modal.Header>
       <Modal.Body>
         <div className="mx-3">
-          <p className="mb-0">Your order number is #1.</p>
-          <p>You should be receving a confirmation email shortly.</p>
+          <p className="mb-0">You should be receving a confirmation email shortly.</p>
+          <p>We are stoked and hope you are too. Shred the gnar!</p>
           <p className="mb-0">Cheers,</p>
           <h1 className="my-0 confirmation-signature">{'Trader Snow\'s'}</h1>
         </div>

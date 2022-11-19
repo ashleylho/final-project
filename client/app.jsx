@@ -19,6 +19,7 @@ export default class App extends React.Component {
     this.state = {
       route: parseRoute(window.location.hash),
       cart: null,
+      orderId: null,
       isOpen: false
     };
     this.renderPage = this.renderPage.bind(this);
@@ -34,8 +35,8 @@ export default class App extends React.Component {
     });
     const searchParams = new URL(window.location).searchParams;
     if (searchParams.has('payment_intent')) {
-      window.localStorage.removeItem('token');
       this.openModal();
+      window.localStorage.removeItem('token');
     } else {
       const token = window.localStorage.getItem('token');
       const tokenStored = token ? jwtDecode(token) : null;
@@ -44,6 +45,15 @@ export default class App extends React.Component {
   }
 
   openModal() {
+    fetch('/api/orderId', {
+      method: 'GET',
+      headers: {
+        'X-Access-Token': this.state.cart
+      }
+    })
+      .then(res => res.json(res))
+      .then(res => this.setState({ orderId: res }))
+      .catch(err => console.error(err));
     this.setState({ isOpen: true });
   }
 
