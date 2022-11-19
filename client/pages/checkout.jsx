@@ -10,7 +10,6 @@ export default function CheckoutPage() {
   const stripePromiseRef = useRef(loadStripe('pk_test_51LunS5KbTmfJuQ2gX7JXiXBFsNz5hGUFYM2lwPy83t5vcp2klOQEdMs1icabJ1HGnYZ4Cxn0BgGeiiO2qmqdQwB700kLFc1AF4'));
 
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
     const token = window.localStorage.getItem('token');
     fetch('/create-payment-intent', {
       method: 'POST',

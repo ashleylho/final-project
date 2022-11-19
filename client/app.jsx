@@ -11,7 +11,7 @@ import Cart from './pages/cart';
 import jwtDecode from 'jwt-decode';
 import CheckoutPage from './pages/checkout';
 import ConfirmationModal from './components/confirmation-modal';
-import AppContext from './lib/app-context';
+// import AppContext from './lib/app-context';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -19,7 +19,6 @@ export default class App extends React.Component {
     this.state = {
       route: parseRoute(window.location.hash),
       cart: null,
-      orderId: null,
       isOpen: false
     };
     this.renderPage = this.renderPage.bind(this);
@@ -45,15 +44,6 @@ export default class App extends React.Component {
   }
 
   openModal() {
-    fetch('/api/orderId', {
-      method: 'GET',
-      headers: {
-        'X-Access-Token': this.state.cart
-      }
-    })
-      .then(res => res.json(res))
-      .then(res => this.setState({ orderId: res }))
-      .catch(err => console.error(err));
     this.setState({ isOpen: true });
   }
 
@@ -89,16 +79,16 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { openModal, checkout } = this;
-    const contextValue = { checkout, openModal };
+    // const { openModal, checkout } = this;
+    // const contextValue = { checkout, openModal };
     return (
       <>
         <Navigation />
         <div>
-          <AppContext.Provider value={contextValue}>
-            {this.renderPage()}
-            <ConfirmationModal show={this.state.isOpen} onHide={this.closeModal} />
-          </AppContext.Provider>
+          {/* <AppContext.Provider value={contextValue}> */}
+          {this.renderPage()}
+          <ConfirmationModal show={this.state.isOpen} onHide={this.closeModal} />
+          {/* </AppContext.Provider> */}
         </div>
       </>
     );

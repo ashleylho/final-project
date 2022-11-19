@@ -107,13 +107,10 @@ class Checkout extends React.Component {
     const { stripe, elements } = this.props;
 
     if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
     stripe.confirmPayment({
-      // `Elements` instance that was used to create the Payment Element
       elements,
       confirmParams: {
         return_url: 'http://localhost:3000/#home'
