@@ -11,7 +11,6 @@ import Cart from './pages/cart';
 import jwtDecode from 'jwt-decode';
 import CheckoutPage from './pages/checkout';
 import ConfirmationModal from './components/confirmation-modal';
-// import AppContext from './lib/app-context';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -79,16 +78,12 @@ export default class App extends React.Component {
   }
 
   render() {
-    // const { openModal, checkout } = this;
-    // const contextValue = { checkout, openModal };
     return (
       <>
         <Navigation />
         <div>
-          {/* <AppContext.Provider value={contextValue}> */}
           {this.renderPage()}
           <ConfirmationModal show={this.state.isOpen} onHide={this.closeModal} />
-          {/* </AppContext.Provider> */}
         </div>
       </>
     );
