@@ -231,7 +231,6 @@ app.post('/create-payment-intent', async (req, res, next) => {
       const total = subtotal + taxes;
       return Math.trunc(total);
     })
-    .then(result => Math.trunc(result))
     .then(result => {
       stripe.paymentIntents.create({
         amount: result,
