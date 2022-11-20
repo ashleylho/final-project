@@ -91,18 +91,18 @@ class Checkout extends React.Component {
       city: this.state.city,
       state: this.state.state,
       zip: this.state.zip,
-      total: 45678
+      total: Number(this.state.costs.total * 100)
     };
-    fetch('/api/checkout', {
-      method: 'POST',
-      headers: {
-        'X-Access-Token': token,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-      .then(res => res.json())
-      .catch(err => console.error(err));
+    // fetch('/api/checkout', {
+    //   method: 'POST',
+    //   headers: {
+    //     'X-Access-Token': token,
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(body)
+    // })
+    //   .then(res => res.json())
+    //   .catch(err => console.error(err));
 
     const { stripe, elements } = this.props;
 
@@ -118,6 +118,16 @@ class Checkout extends React.Component {
     })
       .catch(err => console.error(err));
 
+    fetch('/api/checkout', {
+      method: 'POST',
+      headers: {
+        'X-Access-Token': token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+      .then(res => res.json())
+      .catch(err => console.error(err));
   };
 
   render() {
