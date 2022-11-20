@@ -113,7 +113,7 @@ class Checkout extends React.Component {
     stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: 'http://localhost:3000/#home'
+        return_url: new URL('/#home', window.location).href
       }
     })
       .catch(err => console.error(err));

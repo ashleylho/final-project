@@ -7,7 +7,7 @@ import InjectedCheckoutForm from '../components/checkout-form';
 
 export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState('');
-  const stripePromiseRef = useRef(loadStripe('pk_test_51LunS5KbTmfJuQ2gX7JXiXBFsNz5hGUFYM2lwPy83t5vcp2klOQEdMs1icabJ1HGnYZ4Cxn0BgGeiiO2qmqdQwB700kLFc1AF4'));
+  const stripePromiseRef = useRef(loadStripe(process.env.STRIPE_PUBLIC_KEY));
 
   useEffect(() => {
     const token = window.localStorage.getItem('token');
