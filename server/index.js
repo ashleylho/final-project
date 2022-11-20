@@ -204,8 +204,8 @@ app.get('/api/cost', (req, res, next) => {
     .then(result => {
       const costs = {};
       costs.subtotal = Number(result.rows[0].sum / 100);
-      costs.taxes = (costs.subtotal * 0.0775).toFixed(2);
-      costs.total = (costs.subtotal + Number(costs.taxes)).toFixed(2);
+      costs.taxes = Number((costs.subtotal * 0.0775).toFixed(2));
+      costs.total = Number((costs.subtotal + (costs.taxes)).toFixed(2));
       res.json(costs);
     })
     .catch(err => next(err));
@@ -224,8 +224,14 @@ app.post('/create-payment-intent', async (req, res, next) => {
   `;
   const params = [cartId];
   db.query(sql, params)
-    .then(result => result.rows[0])
-    .then(result => parseInt(result.sum))
+    .then(result => result.rows[0].sum)
+    .then(result => {
+      const subtotal = parseInt(result);
+      const taxes = subtotal * 0.0775;
+      const total = subtotal + taxes;
+      return Math.trunc(total);
+    })
+    .then(result => Math.trunc(result))
     .then(result => {
       stripe.paymentIntents.create({
         amount: result,

@@ -91,7 +91,7 @@ class Checkout extends React.Component {
       city: this.state.city,
       state: this.state.state,
       zip: this.state.zip,
-      total: Number(this.state.costs.total * 100)
+      total: Number(((this.state.costs.total) * 100).toFixed(2))
     };
 
     const { stripe, elements } = this.props;

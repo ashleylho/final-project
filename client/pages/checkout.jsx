@@ -38,7 +38,7 @@ export default function CheckoutPage() {
     <div className="checkout-page">
       {clientSecret && (
         <Elements options={options} stripe={stripePromiseRef.current}>
-          <InjectedCheckoutForm stripe={stripePromiseRef.current}/>
+          <InjectedCheckoutForm/>
         </Elements>
       )}
     </div>
