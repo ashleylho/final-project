@@ -1,7 +1,8 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import OrderSummary from '../components/order-summary';
+import totalCost from '../lib/totalCost';
 
 export default class Cart extends React.Component {
   constructor(props) {
@@ -10,7 +11,6 @@ export default class Cart extends React.Component {
       cartItems: []
     };
     this.cartItems = this.cartItems.bind(this);
-    this.subtotal = this.subtotal.bind(this);
     this.cart = this.cart.bind(this);
   }
 
@@ -51,17 +51,8 @@ export default class Cart extends React.Component {
     return (<ListGroup className="col-md-8 mb-3">{listItems}</ListGroup>);
   }
 
-  subtotal() {
-    let subtotal = 0;
-    this.state.cartItems.forEach(item => {
-      return (subtotal += item.price);
-    });
-    subtotal = subtotal / 100;
-    subtotal = subtotal.toLocaleString('en-US');
-    return subtotal;
-  }
-
   cart() {
+    const total = totalCost(this.state.cartItems);
     if (!this.state.cartItems.length) {
       return (
         <div className="mt-3 empty-cart-container">
@@ -76,27 +67,10 @@ export default class Cart extends React.Component {
         <div className="cart-and-summary">
           {this.cartItems()}
           <div className="col-md-4">
-            <Card className="order-sum-card mx-3 mb-3 mt-2">
-              <Card.Header className="fs-4 order-sum-header">Order Summary</Card.Header>
-              <ListGroup variant="flush">
-                <ListGroup.Item className="d-flex fw-bold text-secondary justify-content-between">
-                  <span>Subtotal</span>
-                  <span>${this.subtotal()}</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex text-secondary justify-content-between">
-                  <span>Standard Shipping</span>
-                  <span>FREE</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex text-secondary justify-content-between">
-                  <span>Estimated Taxes</span>
-                  <span>--</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex text-secondary fw-bold justify-content-between">
-                  <span>Order Total</span>
-                  <span>${this.subtotal()}</span>
-                </ListGroup.Item>
-              </ListGroup>
-            </Card>
+            <OrderSummary subtotal={total.subtotal} taxes="--" total={total.subtotal}/>
+            <div className="d-flex justify-content-center">
+              <Button as="a" className="mx-3 checkout-btn border-0 w-100" href="#checkout">Proceed to Checkout</Button>
+            </div>
           </div>
         </div>
       );
@@ -104,6 +78,7 @@ export default class Cart extends React.Component {
   }
 
   render() {
+    const cost = totalCost(this.state.cartItems);
     return (
       <div className="shopping-cart">
         <div className="d-flex justify-content-between mb-2">
@@ -112,7 +87,7 @@ export default class Cart extends React.Component {
             <span>{this.state.cartItems.length} item(s)</span>
           </div>
           <div className="px-3 mt-3 text-end">
-            <h4 className="fw-bolder mb-0">${this.subtotal()}</h4>
+            <h4 className="fw-bolder mb-0">${cost.subtotal}</h4>
             <span className="fs-6">Subtotal</span>
           </div>
         </div>

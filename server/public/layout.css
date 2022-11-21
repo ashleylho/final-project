@@ -3,7 +3,8 @@
     display: none;
   }
 
-  .shopping-cart {
+  .shopping-cart,
+  .checkout-page {
     margin: auto 3rem;
   }
 
