@@ -24,7 +24,7 @@ export default class ProductDetails extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`api/products/${this.props.productId}`)
+    fetch(`/api/products/${this.props.productId}`)
       .then(res => res.json())
       .then(product => this.setState({ product, loading: false }))
       .catch(err => console.error(err));
@@ -50,7 +50,7 @@ export default class ProductDetails extends React.Component {
       };
       const token = window.localStorage.getItem('token');
       if (this.state.cart) {
-        fetch('api/products', {
+        fetch('/api/products', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ export default class ProductDetails extends React.Component {
           })
           .catch(err => console.error(err));
       } else if (!this.state.cart) {
-        fetch('api/products', {
+        fetch('/api/products', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

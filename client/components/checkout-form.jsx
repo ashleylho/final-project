@@ -39,7 +39,7 @@ class Checkout extends React.Component {
 
   componentDidMount() {
     const token = window.localStorage.getItem('token');
-    fetch('api/cost', {
+    fetch('/api/cost', {
       method: 'GET',
       headers: {
         'X-Access-Token': token

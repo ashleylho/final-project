@@ -17,7 +17,7 @@ export default class Cart extends React.Component {
   componentDidMount() {
     const token = window.localStorage.getItem('token');
     if (token) {
-      fetch('api/cart', {
+      fetch('/api/cart', {
         method: 'GET',
         headers: {
           'X-Access-Token': token
