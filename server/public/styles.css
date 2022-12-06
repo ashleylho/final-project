@@ -160,3 +160,12 @@ input:checked ~ span {
 .confirmation-signature {
   font-family: Bahiana, cursive;
 }
+
+.remove-btn {
+  color: rgb(149, 149, 149);
+}
+
+.remove-btn:hover {
+  color: rgb(149, 149, 149);
+  text-shadow: 0 0.05rem 0.05rem rgba(0, 0, 0, 0.15);
+}
