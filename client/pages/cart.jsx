@@ -47,7 +47,7 @@ export default class Cart extends React.Component {
               Price: <span className="fw-bold">${item.price / 100}</span>
             </h6>
             <Col className="flex-none">
-              <Button onClick={this.removeItem} className="btn border-0 bg-white p-0 text-start text-decoration-underline remove-btn">Remove Item</Button>
+              <Button onClick={this.removeItem} data-id={item.productId} data-size={item.size} className="btn border-0 bg-white p-0 text-start text-decoration-underline remove-btn">Remove Item</Button>
             </Col>
           </div>
         </div>
@@ -82,8 +82,17 @@ export default class Cart extends React.Component {
     }
   }
 
-  removeItem() {
-
+  removeItem(event) {
+    const productId = event.target.dataset.id;
+    const size = event.target.dataset.size;
+    const token = window.localStorage.getItem('token');
+    fetch(`api/product/${productId}/${size}`, {
+      method: 'DELETE',
+      headers: { 'X-Access-Token': token }
+    })
+      .then(res => res.json())
+      .then(cart => this.setState({ cartItems: cart }))
+      .catch(err => console.error(err));
   }
 
   render() {
