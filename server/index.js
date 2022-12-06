@@ -127,7 +127,8 @@ app.get('/api/cart', (req, res, next) => {
   const payload = jwt.verify(token, process.env.TOKEN_SECRET);
   const cartId = payload.cartId;
   const sql = `
-  select "name",
+  select "productId",
+         "name",
          "price",
          "size",
          "quantity",
@@ -148,15 +149,17 @@ app.get('/api/cart', (req, res, next) => {
 
 app.use(authMiddleware);
 
-app.delete('/api/product/:id', (req, res, next) => {
+app.delete('/api/product/:id/:size', (req, res, next) => {
   const { cartId } = req.cartId;
   const productId = Number(req.params.id);
+  const size = Number(req.params.size);
   const sql = `
-  delete from "cartItems"
-  where "productId" = $1
-  and "cartId" = $2
+    delete from "cartItems"
+    where "productId" = $1
+    and "size" = $2
+    and "cartId" = $3
   `;
-  const params = [productId, cartId];
+  const params = [productId, size, cartId];
   db.query(sql, params)
     .then(result => {
       res.json(result.rows);

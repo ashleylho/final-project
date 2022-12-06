@@ -35,11 +35,11 @@ export default class Cart extends React.Component {
     const items = this.state.cartItems;
     const listItems = items.map((item, index) => {
       return <ListGroup.Item key={index}>
-        <div className="d-flex border border-1 rounded py-2 cart-item">
+        <div className="d-flex border border-1 rounded py-2 cart-item align-items-center">
           <div className="col-6 text-center">
             <img className="cart-img img-fluid" src={item.imageUrl} />
           </div>
-          <div className="cart-details col-6 d-flex flex-column justify-content-center">
+          <div className="cart-details col-6 d-flex flex-column">
             <h6 className="fw-light">{item.name} Snowboard</h6>
             <h6 className="fw-light">Size: {item.size}</h6>
             <h6 className="fw-light">Qty: <span className="fw-bold">1</span></h6>
