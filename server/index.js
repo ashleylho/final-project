@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const pg = require('pg');
 const app = express();
 const stripe = require('stripe')(process.env.STRIPE_TEST);
+const authMiddleware = require('./auth-middleware');
 
 app.use(jsonMiddleware);
 app.use(staticMiddleware);
@@ -145,15 +146,18 @@ app.get('/api/cart', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.use(authMiddleware);
+
 app.post('/api/checkout', (req, res, next) => {
-  const token = req.get('X-Access-Token');
-  const payload = jwt.verify(token, process.env.TOKEN_SECRET);
-  const cartId = payload.cartId;
+  // const token = req.get('X-Access-Token');
+  // const payload = jwt.verify(token, process.env.TOKEN_SECRET);
+  // const cartId = payload.cartId;
+  const { cartId } = req.cartId;
   const checkoutInfo = req.body;
   const { email, firstName, lastName, address, address2, city, state, zip, total } = checkoutInfo;
-  if (!token) {
-    throw new ClientError(404, 'Cart was not found.');
-  }
+  // if (!token) {
+  //   throw new ClientError(404, 'Cart was not found.');
+  // }
   const sql = `
   insert into "customer" ("email", "firstName", "lastName", "address", "address2", "city", "state", "zip")
   values ($1, $2, $3, $4, $5, $6, $7, $8)
@@ -189,9 +193,10 @@ app.post('/api/checkout', (req, res, next) => {
 });
 
 app.get('/api/cost', (req, res, next) => {
-  const token = req.get('X-Access-Token');
-  const payload = jwt.verify(token, process.env.TOKEN_SECRET);
-  const cartId = payload.cartId;
+  // const token = req.get('X-Access-Token');
+  // const payload = jwt.verify(token, process.env.TOKEN_SECRET);
+  // const cartId = payload.cartId;
+  const { cartId } = req.cartId;
   const sql = `
   select sum("price")
     from "snowboards"
@@ -212,9 +217,10 @@ app.get('/api/cost', (req, res, next) => {
 });
 
 app.post('/create-payment-intent', async (req, res, next) => {
-  const token = req.get('X-Access-Token');
-  const payload = jwt.verify(token, process.env.TOKEN_SECRET);
-  const cartId = payload.cartId;
+  // const token = req.get('X-Access-Token');
+  // const payload = jwt.verify(token, process.env.TOKEN_SECRET);
+  // const cartId = payload.cartId;
+  const { cartId } = req.cartId;
   const sql = `
   select sum("price")
     from "snowboards"

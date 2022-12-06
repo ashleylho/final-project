@@ -13,6 +13,7 @@ export default class Cart extends React.Component {
     };
     this.cartItems = this.cartItems.bind(this);
     this.cart = this.cart.bind(this);
+    this.removeItem = this.removeItem.bind(this);
   }
 
   componentDidMount() {
@@ -46,7 +47,7 @@ export default class Cart extends React.Component {
               Price: <span className="fw-bold">${item.price / 100}</span>
             </h6>
             <Col className="flex-none">
-              <Button className="btn border-0 bg-white p-0 text-start text-decoration-underline remove-btn">Remove Item</Button>
+              <Button onClick={this.removeItem} className="btn border-0 bg-white p-0 text-start text-decoration-underline remove-btn">Remove Item</Button>
             </Col>
           </div>
         </div>
@@ -79,6 +80,10 @@ export default class Cart extends React.Component {
         </div>
       );
     }
+  }
+
+  removeItem() {
+
   }
 
   render() {
