@@ -3,6 +3,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import OrderSummary from '../components/order-summary';
 import totalCost from '../lib/totalCost';
+import Col from 'react-bootstrap/Col';
 
 export default class Cart extends React.Component {
   constructor(props) {
@@ -44,6 +45,9 @@ export default class Cart extends React.Component {
             <h6 className="fw-light">
               Price: <span className="fw-bold">${item.price / 100}</span>
             </h6>
+            <Col className="flex-none">
+              <Button className="btn border-0 bg-white p-0 text-start text-decoration-underline remove-btn">Remove Item</Button>
+            </Col>
           </div>
         </div>
       </ListGroup.Item>;
