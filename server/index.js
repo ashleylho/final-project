@@ -148,6 +148,22 @@ app.get('/api/cart', (req, res, next) => {
 
 app.use(authMiddleware);
 
+app.delete('/api/product/:id', (req, res, next) => {
+  const { cartId } = req.cartId;
+  const productId = Number(req.params.id);
+  const sql = `
+  delete from "cartItems"
+  where "productId" = $1
+  and "cartId" = $2
+  `;
+  const params = [productId, cartId];
+  db.query(sql, params)
+    .then(result => {
+      res.json(result.rows);
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/checkout', (req, res, next) => {
   // const token = req.get('X-Access-Token');
   // const payload = jwt.verify(token, process.env.TOKEN_SECRET);
