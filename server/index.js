@@ -300,7 +300,7 @@ app.post('/api/checkout', (req, res, next) => {
 app.get('/api/cost', (req, res, next) => {
   const { cartId } = req.cartId;
   const sql = `
-  select sum("price")
+  select sum("price" * "quantity")
     from "snowboards"
     join "cartItems" using("productId")
     join "cart" using("cartId")
@@ -321,7 +321,7 @@ app.get('/api/cost', (req, res, next) => {
 app.post('/create-payment-intent', async (req, res, next) => {
   const { cartId } = req.cartId;
   const sql = `
-  select sum("price")
+  select sum("price" * "quantity")
     from "snowboards"
     join "cartItems" using("productId")
     join "cart" using("cartId")
