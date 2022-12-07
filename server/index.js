@@ -149,15 +149,52 @@ app.get('/api/cart', (req, res, next) => {
 
 app.use(authMiddleware);
 
+app.patch('/api/increase/:id/:size', (req, res, next) => {
+  const { cartId } = req.cartId;
+  const productId = Number(req.params.id);
+  const size = Number(req.params.size);
+  const sql = `
+    update "cartItems"
+       set "quantity" = "quantity" + 1
+     where "productId" = $1
+       and "size" = $2
+       and "cartId" = $3
+  `;
+  const params = [productId, size, cartId];
+  db.query(sql, params)
+    .then(result => {
+      const sql = `
+          select "productId",
+            "name",
+            "price",
+            "size",
+            "quantity",
+            "imageUrl"
+          from "cart"
+          join "cartItems" using("cartId")
+          join "snowboards" using("productId")
+          where "cartId" = $1
+      `;
+      const params = [cartId];
+      db.query(sql, params)
+        .then(result => {
+          const cartItems = result.rows;
+          res.status(200).json(cartItems);
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
+
 app.delete('/api/product/:id/:size', (req, res, next) => {
   const { cartId } = req.cartId;
   const productId = Number(req.params.id);
   const size = Number(req.params.size);
   const sql = `
     delete from "cartItems"
-    where "productId" = $1
-    and "size" = $2
-    and "cartId" = $3
+          where "productId" = $1
+            and "size" = $2
+            and "cartId" = $3
   `;
   const params = [productId, size, cartId];
   db.query(sql, params)
