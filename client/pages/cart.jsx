@@ -44,12 +44,12 @@ export default class Cart extends React.Component {
             <h6 className="fw-light">{item.name} Snowboard</h6>
             <h6 className="fw-light">Size: {item.size}</h6>
             <h6 className="fw-light">Qty:
-              <button onClick={this.updateQuantity} data-id={item.productId} data-size={item.size} className="border-0 bg-white p-0">
-                <i className="bi bi-plus-circle mx-1" />
+              <button onClick={this.updateQuantity} className="border-0 bg-white p-0">
+                <i data-id={item.productId} data-size={item.size} className="bi bi-plus-circle mx-1" />
               </button>
               <span className="fw-bold">{item.quantity}</span>
-              <button onClick={this.updateQuantity} data-id={item.productId} data-size={item.size} className="border-0 bg-white p-0">
-                <i className="bi bi-dash-circle mx-1" />
+              <button onClick={this.updateQuantity} className="border-0 bg-white p-0">
+                <i data-id={item.productId} data-size={item.size} className="bi bi-dash-circle mx-1" />
               </button>
             </h6>
             <h6 className="fw-light">
@@ -98,6 +98,7 @@ export default class Cart extends React.Component {
     fetch(`api/product/${productId}/${size}`, {
       method: 'DELETE',
       headers: { 'X-Access-Token': token }
+
     })
       .then(res => res.json())
       .then(cart => this.setState({ cartItems: cart }))
@@ -105,12 +106,23 @@ export default class Cart extends React.Component {
   }
 
   updateQuantity(event) {
+    const productId = event.target.dataset.id;
+    const size = event.target.dataset.size;
+    const token = window.localStorage.getItem('token');
     if (event.target.className.includes('bi-plus-circle')) {
-      console.log('add 1');
+      fetch(`api/increase/${productId}/${size}`, {
+        method: 'PATCH',
+        headers: {
+          'X-Access-Token': token
+        }
+      })
+        .then(res => res.json())
+        .then(cart => this.setState({ cartItems: cart }))
+        .catch(err => console.error(err));
     }
-    if (event.target.className.includes('bi-dash-circle')) {
-      console.log('minus 1');
-    }
+    // if (event.target.className.includes('bi-dash-circle')) {
+    //   console.log('minus 1');
+    // }
   }
 
   render() {
