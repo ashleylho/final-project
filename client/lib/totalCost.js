@@ -2,7 +2,7 @@ export default function totalCost(items) {
   const result = {};
   let subtotal = 0;
   items.forEach(item => {
-    subtotal += item.price;
+    subtotal += (item.price * item.quantity);
   });
   subtotal = subtotal / 100;
   result.subtotal = subtotal;
