@@ -14,6 +14,7 @@ export default class Cart extends React.Component {
     this.cartItems = this.cartItems.bind(this);
     this.cart = this.cart.bind(this);
     this.removeItem = this.removeItem.bind(this);
+    this.updateQuantity = this.updateQuantity.bind(this);
   }
 
   componentDidMount() {
@@ -43,11 +44,11 @@ export default class Cart extends React.Component {
             <h6 className="fw-light">{item.name} Snowboard</h6>
             <h6 className="fw-light">Size: {item.size}</h6>
             <h6 className="fw-light">Qty:
-              <button className="border-0 bg-white p-0">
+              <button onClick={this.updateQuantity} data-id={item.productId} data-size={item.size} className="border-0 bg-white p-0">
                 <i className="bi bi-plus-circle mx-1" />
               </button>
               <span className="fw-bold">{item.quantity}</span>
-              <button className="border-0 bg-white p-0">
+              <button onClick={this.updateQuantity} data-id={item.productId} data-size={item.size} className="border-0 bg-white p-0">
                 <i className="bi bi-dash-circle mx-1" />
               </button>
             </h6>
@@ -101,6 +102,15 @@ export default class Cart extends React.Component {
       .then(res => res.json())
       .then(cart => this.setState({ cartItems: cart }))
       .catch(err => console.error(err));
+  }
+
+  updateQuantity(event) {
+    if (event.target.className.includes('bi-plus-circle')) {
+      console.log('add 1');
+    }
+    if (event.target.className.includes('bi-dash-circle')) {
+      console.log('minus 1');
+    }
   }
 
   render() {
