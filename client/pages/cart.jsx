@@ -120,9 +120,17 @@ export default class Cart extends React.Component {
         .then(cart => this.setState({ cartItems: cart }))
         .catch(err => console.error(err));
     }
-    // if (event.target.className.includes('bi-dash-circle')) {
-    //   console.log('minus 1');
-    // }
+    if (event.target.className.includes('bi-dash-circle')) {
+      fetch(`api/decrease/${productId}/${size}`, {
+        method: 'PATCH',
+        headers: {
+          'X-Access-Token': token
+        }
+      })
+        .then(res => res.json())
+        .then(cart => this.setState({ cartItems: cart }))
+        .catch(err => console.error(err));
+    }
   }
 
   render() {
