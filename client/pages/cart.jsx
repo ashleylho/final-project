@@ -42,7 +42,15 @@ export default class Cart extends React.Component {
           <div className="cart-details col-6 d-flex flex-column">
             <h6 className="fw-light">{item.name} Snowboard</h6>
             <h6 className="fw-light">Size: {item.size}</h6>
-            <h6 className="fw-light">Qty: <span className="fw-bold">1</span></h6>
+            <h6 className="fw-light">Qty:
+              <button className="border-0 bg-white p-0">
+                <i className="bi bi-plus-circle mx-1" />
+              </button>
+              <span className="fw-bold">{item.quantity}</span>
+              <button className="border-0 bg-white p-0">
+                <i className="bi bi-dash-circle mx-1" />
+              </button>
+            </h6>
             <h6 className="fw-light">
               Price: <span className="fw-bold">${item.price / 100}</span>
             </h6>
