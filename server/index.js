@@ -274,8 +274,8 @@ app.post('/api/checkout', (req, res, next) => {
       const customer = result.rows[0];
       const { customerId } = customer;
       const sql = `
-        insert into "orders" ("cartId", "customerId", "total")
-        values ($1, $2, $3)
+        insert into "orders" ("cartId", "customerId", "total", "timePurchased")
+        values ($1, $2, $3, to_timestamp(${Date.now()} / 1000.0))
         returning *
       `;
       const params = [cartId, customerId, total];
