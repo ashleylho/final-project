@@ -72,7 +72,7 @@ select   "name",
     .catch(err => next(err));
 });
 
-app.post('/api/products', (req, res, next) => {
+app.post('/api/addToCart', (req, res, next) => {
   const token = req.get('X-Access-Token');
   if (!token) {
     const cartSql = `
@@ -108,6 +108,9 @@ app.post('/api/products', (req, res, next) => {
     const sql = `
       insert into "cartItems" ("cartId", "productId", "quantity", "size")
       values ($1, $2, $3, $4)
+      on conflict ("cartId", "productId", "size")
+      do update
+      set "quantity" = "cartItems"."quantity" + "excluded"."quantity"
       returning *
     `;
     const params = [cartId, productId, quantity, size];

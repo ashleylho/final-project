@@ -114,7 +114,8 @@ CREATE TABLE "public"."cartItems" (
 	"cartId" int NOT NULL,
 	"productId" int NOT NULL,
 	"quantity" int NOT NULL,
-	"size" int NOT NULL
+	"size" int NOT NULL,
+  UNIQUE ("cartId", "productId", "size")
 ) WITH (
   OIDS=FALSE
 );
