@@ -311,8 +311,8 @@ app.get('/api/cost', (req, res, next) => {
     .then(result => {
       const costs = {};
       costs.subtotal = Number(result.rows[0].sum / 100);
-      costs.taxes = Number((costs.subtotal * 0.0775).toFixed(2));
-      costs.total = Number((costs.subtotal + (costs.taxes)).toFixed(2));
+      costs.taxes = (costs.subtotal * 0.0775).toFixed(2);
+      costs.total = Number((costs.subtotal + Number((costs.taxes))).toFixed(2));
       res.json(costs);
     })
     .catch(err => next(err));
