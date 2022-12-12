@@ -22,6 +22,7 @@ export default class ProductDetails extends React.Component {
     this.addToCart = this.addToCart.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.updateQty = this.updateQty.bind(this);
   }
 
   componentDidMount() {
@@ -46,7 +47,7 @@ export default class ProductDetails extends React.Component {
     } else {
       const cartItem = {
         productId: this.props.productId,
-        quantity: this.props.quantity,
+        quantity: this.state.quantity,
         size: this.state.size
       };
       const token = window.localStorage.getItem('token');
@@ -101,6 +102,15 @@ export default class ProductDetails extends React.Component {
       );
     });
     return sizeInputs;
+  }
+
+  updateQty(event) {
+    if (event.target.className.includes('bi-plus-circle')) {
+      this.setState(prevState => ({ quantity: prevState.quantity + 1 }));
+    }
+    if (event.target.className.includes('bi-dash-circle')) {
+      this.setState(prevState => ({ quantity: prevState.quantity - 1 }));
+    }
   }
 
   render() {
