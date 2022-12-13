@@ -108,7 +108,7 @@ export default class ProductDetails extends React.Component {
     if (event.target.className.includes('bi-plus-circle')) {
       this.setState(prevState => ({ quantity: prevState.quantity + 1 }));
     }
-    if (event.target.className.includes('bi-dash-circle')) {
+    if (event.target.className.includes('bi-dash-circle') && this.state.quantity > 1) {
       this.setState(prevState => ({ quantity: prevState.quantity - 1 }));
     }
   }

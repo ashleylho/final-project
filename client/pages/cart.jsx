@@ -48,7 +48,7 @@ export default class Cart extends React.Component {
                 <i data-id={item.productId} data-size={item.size} className="bi bi-plus-circle mx-1" />
               </button>
               <span className="fw-bold">{item.quantity}</span>
-              <button onClick={this.updateQuantity} className="border-0 bg-white p-0">
+              <button disabled={item.quantity <= 1} onClick={this.updateQuantity} className="border-0 bg-white p-0">
                 <i data-id={item.productId} data-size={item.size} className="bi bi-dash-circle mx-1" />
               </button>
             </h6>
