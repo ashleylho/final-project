@@ -255,7 +255,7 @@ export default class ProductDetails extends React.Component {
             <hr />
           </div >
         </Container>
-        <CartModal productinfo={this.state.product} size={this.state.size} show={this.state.isOpen} onHide={this.closeModal} />
+        <CartModal qty={this.state.quantity} productinfo={this.state.product} size={this.state.size} show={this.state.isOpen} onHide={this.closeModal} />
       </>
     );
   }
