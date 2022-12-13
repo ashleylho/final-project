@@ -72,7 +72,7 @@ select   "name",
     .catch(err => next(err));
 });
 
-app.post('/api/products', (req, res, next) => {
+app.post('/api/addToCart', (req, res, next) => {
   const token = req.get('X-Access-Token');
   if (!token) {
     const cartSql = `
@@ -108,6 +108,9 @@ app.post('/api/products', (req, res, next) => {
     const sql = `
       insert into "cartItems" ("cartId", "productId", "quantity", "size")
       values ($1, $2, $3, $4)
+      on conflict ("cartId", "productId", "size")
+      do update
+      set "quantity" = "cartItems"."quantity" + "excluded"."quantity"
       returning *
     `;
     const params = [cartId, productId, quantity, size];
@@ -149,15 +152,89 @@ app.get('/api/cart', (req, res, next) => {
 
 app.use(authMiddleware);
 
+app.patch('/api/increase/:id/:size', (req, res, next) => {
+  const { cartId } = req.cartId;
+  const productId = Number(req.params.id);
+  const size = Number(req.params.size);
+  const sql = `
+    update "cartItems"
+       set "quantity" = "quantity" + 1
+     where "productId" = $1
+       and "size" = $2
+       and "cartId" = $3
+  `;
+  const params = [productId, size, cartId];
+  db.query(sql, params)
+    .then(result => {
+      const sql = `
+          select "productId",
+            "name",
+            "price",
+            "size",
+            "quantity",
+            "imageUrl"
+          from "cart"
+          join "cartItems" using("cartId")
+          join "snowboards" using("productId")
+          where "cartId" = $1
+      `;
+      const params = [cartId];
+      db.query(sql, params)
+        .then(result => {
+          const cartItems = result.rows;
+          res.status(200).json(cartItems);
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
+
+app.patch('/api/decrease/:id/:size', (req, res, next) => {
+  const { cartId } = req.cartId;
+  const productId = Number(req.params.id);
+  const size = Number(req.params.size);
+  const sql = `
+    update "cartItems"
+       set "quantity" = "quantity" - 1
+     where "productId" = $1
+       and "size" = $2
+       and "cartId" = $3
+  `;
+  const params = [productId, size, cartId];
+  db.query(sql, params)
+    .then(result => {
+      const sql = `
+          select "productId",
+            "name",
+            "price",
+            "size",
+            "quantity",
+            "imageUrl"
+          from "cart"
+          join "cartItems" using("cartId")
+          join "snowboards" using("productId")
+          where "cartId" = $1
+      `;
+      const params = [cartId];
+      db.query(sql, params)
+        .then(result => {
+          const cartItems = result.rows;
+          res.status(200).json(cartItems);
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
+
 app.delete('/api/product/:id/:size', (req, res, next) => {
   const { cartId } = req.cartId;
   const productId = Number(req.params.id);
   const size = Number(req.params.size);
   const sql = `
     delete from "cartItems"
-    where "productId" = $1
-    and "size" = $2
-    and "cartId" = $3
+          where "productId" = $1
+            and "size" = $2
+            and "cartId" = $3
   `;
   const params = [productId, size, cartId];
   db.query(sql, params)
@@ -200,8 +277,8 @@ app.post('/api/checkout', (req, res, next) => {
       const customer = result.rows[0];
       const { customerId } = customer;
       const sql = `
-        insert into "orders" ("cartId", "customerId", "total")
-        values ($1, $2, $3)
+        insert into "orders" ("cartId", "customerId", "total", "timePurchased")
+        values ($1, $2, $3, to_timestamp(${Date.now()} / 1000.0))
         returning *
       `;
       const params = [cartId, customerId, total];
@@ -226,7 +303,7 @@ app.post('/api/checkout', (req, res, next) => {
 app.get('/api/cost', (req, res, next) => {
   const { cartId } = req.cartId;
   const sql = `
-  select sum("price")
+  select sum("price" * "quantity")
     from "snowboards"
     join "cartItems" using("productId")
     join "cart" using("cartId")
@@ -237,8 +314,8 @@ app.get('/api/cost', (req, res, next) => {
     .then(result => {
       const costs = {};
       costs.subtotal = Number(result.rows[0].sum / 100);
-      costs.taxes = Number((costs.subtotal * 0.0775).toFixed(2));
-      costs.total = Number((costs.subtotal + (costs.taxes)).toFixed(2));
+      costs.taxes = (costs.subtotal * 0.0775).toFixed(2);
+      costs.total = Number((costs.subtotal + Number((costs.taxes))).toFixed(2));
       res.json(costs);
     })
     .catch(err => next(err));
@@ -247,7 +324,7 @@ app.get('/api/cost', (req, res, next) => {
 app.post('/create-payment-intent', async (req, res, next) => {
   const { cartId } = req.cartId;
   const sql = `
-  select sum("price")
+  select sum("price" * "quantity")
     from "snowboards"
     join "cartItems" using("productId")
     join "cart" using("cartId")

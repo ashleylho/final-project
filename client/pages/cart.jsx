@@ -14,6 +14,7 @@ export default class Cart extends React.Component {
     this.cartItems = this.cartItems.bind(this);
     this.cart = this.cart.bind(this);
     this.removeItem = this.removeItem.bind(this);
+    this.updateQuantity = this.updateQuantity.bind(this);
   }
 
   componentDidMount() {
@@ -42,7 +43,15 @@ export default class Cart extends React.Component {
           <div className="cart-details col-6 d-flex flex-column">
             <h6 className="fw-light">{item.name} Snowboard</h6>
             <h6 className="fw-light">Size: {item.size}</h6>
-            <h6 className="fw-light">Qty: <span className="fw-bold">1</span></h6>
+            <h6 className="fw-light">Qty:
+              <button onClick={this.updateQuantity} className="border-0 bg-white p-0">
+                <i data-id={item.productId} data-size={item.size} className="bi bi-plus-circle mx-1" />
+              </button>
+              <span className="fw-bold">{item.quantity}</span>
+              <button disabled={item.quantity <= 1} onClick={this.updateQuantity} className="border-0 bg-white p-0">
+                <i data-id={item.productId} data-size={item.size} className="bi bi-dash-circle mx-1" />
+              </button>
+            </h6>
             <h6 className="fw-light">
               Price: <span className="fw-bold">${item.price / 100}</span>
             </h6>
@@ -89,10 +98,39 @@ export default class Cart extends React.Component {
     fetch(`api/product/${productId}/${size}`, {
       method: 'DELETE',
       headers: { 'X-Access-Token': token }
+
     })
       .then(res => res.json())
       .then(cart => this.setState({ cartItems: cart }))
       .catch(err => console.error(err));
+  }
+
+  updateQuantity(event) {
+    const productId = event.target.dataset.id;
+    const size = event.target.dataset.size;
+    const token = window.localStorage.getItem('token');
+    if (event.target.className.includes('bi-plus-circle')) {
+      fetch(`api/increase/${productId}/${size}`, {
+        method: 'PATCH',
+        headers: {
+          'X-Access-Token': token
+        }
+      })
+        .then(res => res.json())
+        .then(cart => this.setState({ cartItems: cart }))
+        .catch(err => console.error(err));
+    }
+    if (event.target.className.includes('bi-dash-circle')) {
+      fetch(`api/decrease/${productId}/${size}`, {
+        method: 'PATCH',
+        headers: {
+          'X-Access-Token': token
+        }
+      })
+        .then(res => res.json())
+        .then(cart => this.setState({ cartItems: cart }))
+        .catch(err => console.error(err));
+    }
   }
 
   render() {

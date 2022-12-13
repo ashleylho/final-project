@@ -78,6 +78,7 @@ CREATE TABLE "public"."orders" (
 	"cartId" int NOT NULL,
 	"customerId" int NOT NULL,
 	"total" int NOT NULL,
+	"timePurchased" timestamp with time zone NOT NULL,
 	CONSTRAINT "orders_pk" PRIMARY KEY ("orderId")
 ) WITH (
   OIDS=FALSE
@@ -113,7 +114,8 @@ CREATE TABLE "public"."cartItems" (
 	"cartId" int NOT NULL,
 	"productId" int NOT NULL,
 	"quantity" int NOT NULL,
-	"size" int NOT NULL
+	"size" int NOT NULL,
+  UNIQUE ("cartId", "productId", "size")
 ) WITH (
   OIDS=FALSE
 );

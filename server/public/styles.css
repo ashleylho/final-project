@@ -75,6 +75,10 @@ body {
   font-size: calc(0.5rem + 1vw);
 }
 
+.product-div {
+  min-height: 100%;
+}
+
 .product-link:hover {
   text-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
   color: black;

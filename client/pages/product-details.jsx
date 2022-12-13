@@ -13,6 +13,7 @@ export default class ProductDetails extends React.Component {
       product: null,
       loading: true,
       size: null,
+      quantity: 1,
       isOpen: false,
       cart: null
     };
@@ -21,6 +22,7 @@ export default class ProductDetails extends React.Component {
     this.addToCart = this.addToCart.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.updateQty = this.updateQty.bind(this);
   }
 
   componentDidMount() {
@@ -45,12 +47,12 @@ export default class ProductDetails extends React.Component {
     } else {
       const cartItem = {
         productId: this.props.productId,
-        quantity: 1,
+        quantity: this.state.quantity,
         size: this.state.size
       };
       const token = window.localStorage.getItem('token');
       if (this.state.cart) {
-        fetch('/api/products', {
+        fetch('/api/addToCart', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -64,7 +66,7 @@ export default class ProductDetails extends React.Component {
           })
           .catch(err => console.error(err));
       } else if (!this.state.cart) {
-        fetch('/api/products', {
+        fetch('/api/addToCart', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -102,6 +104,15 @@ export default class ProductDetails extends React.Component {
     return sizeInputs;
   }
 
+  updateQty(event) {
+    if (event.target.className.includes('bi-plus-circle')) {
+      this.setState(prevState => ({ quantity: prevState.quantity + 1 }));
+    }
+    if (event.target.className.includes('bi-dash-circle') && this.state.quantity > 1) {
+      this.setState(prevState => ({ quantity: prevState.quantity - 1 }));
+    }
+  }
+
   render() {
     const product = this.state.product;
     if (this.state.loading) return null;
@@ -123,9 +134,13 @@ export default class ProductDetails extends React.Component {
             <p className="mb-1">Quantity</p>
             <div className="d-flex justify-content-between">
               <div className="col-4 me-1">
-                <i className="bi bi-plus-circle fs-2" />
-                <span className= "px-3 py-1 border border-dark rounded mx-2">1</span>
-                <i className="bi bi-dash-circle fs-2" />
+                <button type="button" onClick={this.updateQty} className="border-0 bg-white p-0">
+                  <i className="bi bi-plus-circle fs-2" />
+                </button>
+                <span className= "px-3 py-1 border border-dark rounded mx-2">{this.state.quantity}</span>
+                <button disabled={this.state.quantity <= 1} type="button" onClick={this.updateQty} className="border-0 bg-white p-0">
+                  <i className="bi bi-dash-circle fs-2" />
+                </button>
               </div>
               <div className="col-8">
                 <Button type="submit" className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
@@ -186,9 +201,13 @@ export default class ProductDetails extends React.Component {
                 <p className="mb-1">Quantity</p>
                 <div className="d-flex justify-content-between">
                   <div className="col-lg-4 quantity">
-                    <i className="bi bi-plus-circle fs-2" />
-                    <span className="fs-4 px-4 py-1 border border-dark rounded mx-2">1</span>
-                    <i className="bi bi-dash-circle fs-2" />
+                    <button type="button" onClick={this.updateQty} className="border-0 bg-white p-0">
+                      <i className="bi bi-plus-circle fs-2" />
+                    </button>
+                    <span className="fs-4 px-4 py-1 border border-dark rounded mx-2">{this.state.quantity}</span>
+                    <button disabled={this.state.quantity <= 1} type="button" onClick={this.updateQty} className="border-0 bg-white p-0">
+                      <i className="bi bi-dash-circle fs-2" />
+                    </button>
                   </div>
                   <div className="col-lg-8">
                     <Button type="submit" className="w-100 d-inline px-5 border-0 add-to-cart" variant="primary">Add to Cart</Button>
