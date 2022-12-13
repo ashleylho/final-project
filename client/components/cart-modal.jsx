@@ -22,7 +22,7 @@ export default function CartModal(props) {
           <div className="col-6">
             <h5 className="mt-4">{props.productinfo.name} Snowboard</h5>
             <h5 className="fw-light">Size: {props.size}</h5>
-            <h5 className="fw-light">Qty: 1</h5>
+            <h5 className="fw-light">Qty: {props.qty}</h5>
             <h5 className="fw-light">Price: ${props.productinfo.price / 100}</h5>
           </div>
         </div>
