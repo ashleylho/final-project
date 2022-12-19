@@ -134,12 +134,12 @@ export default class ProductDetails extends React.Component {
             <p className="mb-1">Quantity</p>
             <div className="d-flex justify-content-between">
               <div className="col-4 me-1">
-                <button type="button" onClick={this.updateQty} className="border-0 bg-white ps-0 pe-1">
-                  <i className="bi bi-plus-circle fs-2" />
+                <button disabled={this.state.quantity <= 1} type="button" onClick={this.updateQty} className="border-0 bg-white ps-0 pe-1">
+                  <i className="bi bi-dash-circle fs-2" />
                 </button>
                 <span className= "px-3 py-1 border border-dark rounded">{this.state.quantity}</span>
-                <button disabled={this.state.quantity <= 1} type="button" onClick={this.updateQty} className="border-0 bg-white ps-1 pe-0">
-                  <i className="bi bi-dash-circle fs-2" />
+                <button type="button" onClick={this.updateQty} className="border-0 bg-white ps-1 pe-0">
+                  <i className="bi bi-plus-circle fs-2" />
                 </button>
               </div>
               <div className="col-8">
@@ -201,12 +201,12 @@ export default class ProductDetails extends React.Component {
                 <p className="mb-1">Quantity</p>
                 <div className="d-flex justify-content-between">
                   <div className="col-lg-4 quantity">
-                    <button type="button" onClick={this.updateQty} className="border-0 bg-white p-0">
-                      <i className="bi bi-plus-circle fs-2" />
-                    </button>
-                    <span className="fs-4 px-4 py-1 border border-dark rounded mx-2">{this.state.quantity}</span>
                     <button disabled={this.state.quantity <= 1} type="button" onClick={this.updateQty} className="border-0 bg-white p-0">
                       <i className="bi bi-dash-circle fs-2" />
+                    </button>
+                    <span className="fs-4 px-4 py-1 border border-dark rounded mx-2">{this.state.quantity}</span>
+                    <button type="button" onClick={this.updateQty} className="border-0 bg-white p-0">
+                      <i className="bi bi-plus-circle fs-2" />
                     </button>
                   </div>
                   <div className="col-lg-8">

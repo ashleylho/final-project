@@ -44,12 +44,12 @@ export default class Cart extends React.Component {
             <h6 className="fw-light">{item.name} Snowboard</h6>
             <h6 className="fw-light">Size: {item.size}</h6>
             <h6 className="fw-light">Qty:
-              <button onClick={this.updateQuantity} className="border-0 bg-white p-0">
-                <i data-id={item.productId} data-size={item.size} className="bi bi-plus-circle mx-1" />
-              </button>
-              <span className="fw-bold">{item.quantity}</span>
               <button disabled={item.quantity <= 1} onClick={this.updateQuantity} className="border-0 bg-white p-0">
                 <i data-id={item.productId} data-size={item.size} className="bi bi-dash-circle mx-1" />
+              </button>
+              <span className="fw-bold">{item.quantity}</span>
+              <button onClick={this.updateQuantity} className="border-0 bg-white p-0">
+                <i data-id={item.productId} data-size={item.size} className="bi bi-plus-circle mx-1" />
               </button>
             </h6>
             <h6 className="fw-light">
